@@ -1,0 +1,335 @@
+--- /dev/null
++++ b/assets/typography.css
+@@ -0,0 +1,59 @@
++/* Author-supplied variable webfonts. Served locally; no font service requests. */
++@font-face {
++  font-family: "MuseoModerno";
++  src: url("./fonts/MuseoModerno-Variable-latin.woff2") format("woff2");
++  font-style: normal;
++  font-weight: 100 900;
++  font-display: swap;
++}
++@font-face {
++  font-family: "SUIT";
++  src: url("./fonts/SUIT-Variable.woff2") format("woff2");
++  font-style: normal;
++  font-weight: 100 900;
++  font-display: swap;
++}
++:root {
++  --sans: "SUIT", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", system-ui, sans-serif;
++  --mono: var(--sans);
++}
++body {
++  font-weight: 400;
++  font-synthesis: none;
++  letter-spacing: -.012em;
++}
++.masthead { gap: 24px; }
++.masthead h1 {
++  font-family: "MuseoModerno", var(--sans);
++  font-size: 24px;
++  font-weight: 400;
++  line-height: 1.28;
++  letter-spacing: -.018em;
++}
++.language { font-size: 12px; font-weight: 400; letter-spacing: .035em; flex-shrink: 0; }
++.intro h2 { font-weight: 450; letter-spacing: -.025em; }
++.intro p { font-size: 14px; line-height: 1.85; }
++.faq-heading h2 { font-weight: 450; letter-spacing: .025em; }
++.faq-item summary { font-size: 15.5px; font-weight: 450; line-height: 1.8; }
++.question-number { font-variant-numeric: tabular-nums; font-size: 11.5px; font-weight: 400; }
++.answer { font-size: 14.5px; font-weight: 400; line-height: 1.9; }
++.caption, .answer figcaption { font-size: 11.5px; }
++html[lang="en"] body { word-break: normal; letter-spacing: 0; }
++html[lang="en"] .intro h2 { letter-spacing: -.012em; }
++html[lang="en"] .answer { line-height: 1.8; }
++@media(max-width:800px) {
++  .masthead h1 { font-size: 22px; }
++  .intro p { font-size: 13.5px; }
++  .faq-item summary { font-size: 15px; }
++  .answer { font-size: 14px; }
++}
++@media(max-width:560px) {
++  .masthead { gap: 16px; }
++  .masthead h1 { font-size: 20px; }
++  .language { font-size: 11px; gap: 11px; }
++  .intro h2 { font-size: 17px; }
++  .intro p { font-size: 13.5px; }
++  .faq-item summary { font-size: 14.5px; }
++  .answer { font-size: 13.5px; line-height: 1.9; }
++  .caption, .answer figcaption { font-size: 10.5px; }
++}
+--- a/assets/favicon.svg
++++ b/assets/favicon.svg
+@@ -1 +1,4 @@
+-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="#f8f8f5" d="M0 0H40V40H0Z"/><text x="4" y="27" fill="#292e30" font-family="monospace" font-size="25">FF</text></svg>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
++  <title id="title">FFREP</title>
++  <path d="M13 25V13h12M39 13h12v12M51 39v12H39M25 51H13V39" fill="none" stroke="#1f211f" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
++</svg>
+--- a/scripts/build.py
++++ b/scripts/build.py
+@@ -13,6 +13,8 @@
+ LINK = re.compile(r'\[([^\]\n]+)\]\((https://[^\s)]+)\)')
+ MEDIA = ('yumeka-training.mp4', 'yumeka-training.webp', 'shoki-training.mp4',
+          'shoki-training.webp', 'yumeka-model.webp', 'malecns-poster.webp')
++FONTS = ('MuseoModerno-Variable-latin.woff2', 'SUIT-Variable.woff2',
++         'MuseoModerno-OFL.txt', 'SUIT-OFL.txt')
+ POSTS = {'main': 'https://x.com/yakshawan/status/2099806286468849665',
+          'shoki': 'https://x.com/yakshawan/status/2099813850426245440'}
+ 
+@@ -151,8 +153,11 @@
+     (out/'assets/media').mkdir(parents=True)
+     (out/'content').mkdir()
+     (out/'index.html').write_text(rendered,'utf-8')
+-    for name in ('site.css','site.js','favicon.svg'):
++    for name in ('site.css','typography.css','site.js','favicon.svg'):
+         shutil.copy2(ROOT/'assets'/name,out/'assets'/name)
++    (out/'assets/fonts').mkdir()
++    for name in FONTS:
++        shutil.copy2(ROOT/'assets/fonts'/name,out/'assets/fonts'/name)
+     for name in MEDIA:
+         path=ROOT/'assets/media'/name
+         if not path.is_file(): raise FileNotFoundError('Missing public asset: '+name)
+--- a/templates/page.html
++++ b/templates/page.html
+@@ -12,8 +12,11 @@
+   <meta property="og:locale" content="ko_KR">
+   <meta property="og:image" content="https://heavyrain39.github.io/ffrep/assets/media/yumeka-training.webp">
+   <title>{{meta.title}}</title>
+-  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
++  <link rel="icon" href="./assets/favicon.svg?v=2" type="image/svg+xml">
++  <link rel="preload" href="./assets/fonts/MuseoModerno-Variable-latin.woff2" as="font" type="font/woff2" crossorigin>
++  <link rel="preload" href="./assets/fonts/SUIT-Variable.woff2" as="font" type="font/woff2" crossorigin>
+   <link rel="stylesheet" href="./assets/site.css">
++  <link rel="stylesheet" href="./assets/typography.css">
+   <script src="./assets/site.js" defer></script>
+ </head>
+ <body id="top">
+--- a/tests/test_site.py
++++ b/tests/test_site.py
+@@ -3,6 +3,7 @@
+ import json
+ from html.parser import HTMLParser
+ from pathlib import Path
++from urllib.parse import urlparse
+ import unittest
+ 
+ ROOT=Path(__file__).resolve().parents[1]
+@@ -36,6 +37,7 @@
+             for attr in ('href','src','poster'):
+                 value=attrs.get(attr,'')
+                 if value.startswith('./'):
++                    value=urlparse(value).path
+                     self.assertTrue((ROOT/value[2:]).is_file(),value)
+                     self.assertTrue((ROOT/'_site'/value[2:]).is_file(),value)
+                 if value.startswith('#'):self.assertIn(value[1:],self.dom.ids)
+@@ -67,9 +69,10 @@
+         enabled=next(l['enabled'] for l in self.locales['languages'] if l['code']=='en')
+         self.assertEqual('disabled' in en,not enabled)
+     def test_public_allowlist_and_no_private_recipe(self):
+-        allowed={'index.html','.nojekyll','assets/site.css','assets/site.js','assets/favicon.svg','content/locales.json'}
++        allowed={'index.html','.nojekyll','assets/site.css','assets/typography.css','assets/site.js','assets/favicon.svg','content/locales.json'}
+         allowed|={'content/'+l['code']+'.json' for l in self.locales['languages'] if l['enabled']}
+         allowed|={'assets/media/'+name for name in build.MEDIA}
++        allowed|={'assets/fonts/'+name for name in build.FONTS}
+         actual={p.relative_to(ROOT/'_site').as_posix() for p in (ROOT/'_site').rglob('*') if p.is_file()}
+         self.assertEqual(actual,allowed)
+         for path in (ROOT/'_site').rglob('*'):
+--- a/scripts/check_browser.py
++++ b/scripts/check_browser.py
+@@ -21,7 +21,7 @@
+ ko=json.loads((root/'content/ko.json').read_text());en=json.loads((root/'content/en.json').read_text())
+ results=[]
+ with sync_playwright() as p:
+-    browser=p.chromium.launch(headless=True)
++    browser=p.chromium.launch(headless=True, executable_path=os.environ.get('BROWSER_EXECUTABLE_PATH') or None)
+     def test(name,fn):
+         try:fn();results.append({'test':name,'passed':True});print('PASS',name,flush=True)
+         except Exception as exc:results.append({'test':name,'passed':False,'error':str(exc)});print('FAIL',name,str(exc),flush=True);(output/'browser-tests.json').write_text(json.dumps(results,ensure_ascii=False,indent=2));raise
+--- /dev/null
++++ b/scripts/check_typography.py
+@@ -0,0 +1,95 @@
++"""Verify the supplied fonts, restrained weights and KO/EN layout in Chromium."""
++from __future__ import annotations
++import functools
++import json
++import os
++import threading
++from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
++from pathlib import Path
++from playwright.sync_api import sync_playwright
++
++ROOT = Path(__file__).resolve().parents[1]
++OUT = ROOT / 'test-results'
++OUT.mkdir(exist_ok=True)
++
++class Quiet(SimpleHTTPRequestHandler):
++    def log_message(self, *args):
++        pass
++
++def main():
++    server = ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(ROOT / '_site')))
++    threading.Thread(target=server.serve_forever, daemon=True).start()
++    base = f'http://127.0.0.1:{server.server_port}/'
++    report = {'passed': False, 'cases': []}
++    try:
++        with sync_playwright() as p:
++            browser = p.chromium.launch(headless=True, executable_path=os.environ.get('BROWSER_EXECUTABLE_PATH') or None)
++            for lang in ('ko', 'en'):
++                context = browser.new_context(locale='ko-KR' if lang == 'ko' else 'en-US')
++                context.route('https://**/*', lambda route: route.abort())
++                page = context.new_page()
++                errors = []
++                page.on('pageerror', lambda err: errors.append(str(err)))
++                fonts_requested = []
++                page.on('request', lambda req: fonts_requested.append(req.url) if '.woff2' in req.url else None)
++                page.goto(base + '?lang=' + lang)
++                page.wait_for_function('(lang) => document.documentElement.lang === lang', arg=lang)
++                page.evaluate('async () => { await document.fonts.ready; }')
++                assert page.evaluate('document.fonts.check(\'400 24px "MuseoModerno"\')')
++                assert page.evaluate('document.fonts.check(\'400 15px "SUIT"\')')
++                assert len(fonts_requested) == 2, fonts_requested
++                assert all(url.startswith(base + 'assets/fonts/') for url in fonts_requested)
++                client = context.new_cdp_session(page)
++                client.send('DOM.enable'); client.send('CSS.enable')
++                root = client.send('DOM.getDocument')['root']['nodeId']
++                rendered = {}
++                for selector, expected in (('.masthead h1', 'MuseoModerno'), ('.intro p', 'SUIT')):
++                    node = client.send('DOM.querySelector', {'nodeId': root, 'selector': selector})['nodeId']
++                    faces = client.send('CSS.getPlatformFontsForNode', {'nodeId': node})['fonts']
++                    assert any(expected in f['familyName'] and f['isCustomFont'] and f['glyphCount'] > 0 for f in faces), faces
++                    rendered[selector] = faces
++                for width in (320, 375, 768, 1360):
++                    page.set_viewport_size({'width': width, 'height': 950})
++                    page.evaluate('document.querySelectorAll("details").forEach(d => d.open = true)')
++                    page.evaluate('async () => { await document.fonts.ready; }')
++                    result = page.evaluate('''() => {
++                        const h = document.querySelector('.masthead h1'), l = document.querySelector('.language');
++                        const a=h.getBoundingClientRect(), b=l.getBoundingClientRect();
++                        return {
++                            overflow: document.documentElement.scrollWidth > innerWidth,
++                            headerOverlap: a.right > b.left - 8,
++                            titleFamily: getComputedStyle(h).fontFamily,
++                            titleWeight: getComputedStyle(h).fontWeight,
++                            bodyFamily: getComputedStyle(document.body).fontFamily,
++                            bodyWeight: getComputedStyle(document.body).fontWeight,
++                            questionWeight: getComputedStyle(document.querySelector('summary')).fontWeight,
++                            titleLines: h.innerText.split('\\n').length
++                        };
++                    }''')
++                    assert not result['overflow'], (lang, width, result)
++                    assert not result['headerOverlap'], (lang, width, result)
++                    assert result['titleLines'] == 3
++                    assert result['titleWeight'] == result['bodyWeight'] == '400'
++                    assert result['questionWeight'] == '450'
++                    report['cases'].append({'lang': lang, 'width': width, **result})
++                report[lang + '_rendered_fonts'] = rendered
++                page.set_viewport_size({'width': 1360, 'height': 1000})
++                page.evaluate('document.querySelectorAll("details").forEach(d => d.open = false); scrollTo(0, 0)')
++                page.screenshot(path=str(OUT / f'typography-{lang}-desktop.png'), full_page=True)
++                page.screenshot(path=str(OUT / f'typography-{lang}-first-screen.png'))
++                page.locator('#neural-network summary').click()
++                page.screenshot(path=str(OUT / f'typography-{lang}-faq.png'), full_page=True)
++                page.set_viewport_size({'width': 375, 'height': 850})
++                page.evaluate('document.querySelectorAll("details").forEach(d => d.open = false); scrollTo(0, 0)')
++                page.screenshot(path=str(OUT / f'typography-{lang}-mobile.png'), full_page=True)
++                assert not errors, errors
++                context.close()
++            browser.close()
++        report['passed'] = True
++        print('PASS: supplied fonts actually rendered; eight KO/EN viewport cases, weights and title spacing.')
++    finally:
++        server.shutdown()
++        (OUT / 'typography.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
++
++if __name__ == '__main__':
++    main()
+--- /dev/null
++++ b/tests/test_typography.py
+@@ -0,0 +1,49 @@
++"""Font files must remain identical to the author's uploads, not substitutes."""
++import hashlib
++import re
++import unittest
++import xml.etree.ElementTree as ET
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[1]
++EXPECTED = {
++    'MuseoModerno-Variable-latin.woff2': '8df17b9c94983ee6490a8004e422123c5503a40ad59cc32d39e02d202561382e',
++    'SUIT-Variable.woff2': 'aa894a204d5a6fbae259dac6868d350cbd373a390caee0313f92946af741df23',
++}
++
++class TypographyTests(unittest.TestCase):
++    def test_exact_supplied_webfonts_and_deployed_copies(self):
++        for name, expected in EXPECTED.items():
++            for folder in (ROOT / 'assets/fonts', ROOT / '_site/assets/fonts'):
++                data = (folder / name).read_bytes()
++                self.assertEqual(data[:4], b'wOF2')
++                self.assertEqual(hashlib.sha256(data).hexdigest(), expected)
++    def test_licenses_shipped(self):
++        for name in ('MuseoModerno-OFL.txt', 'SUIT-OFL.txt'):
++            self.assertIn('SIL OPEN FONT LICENSE', (ROOT / '_site/assets/fonts' / name).read_text())
++    def test_font_sources_local_and_variable(self):
++        css = (ROOT / 'assets/typography.css').read_text()
++        self.assertEqual(css.count('@font-face'), 2)
++        self.assertEqual(css.count('font-weight: 100 900'), 2)
++        for path in re.findall(r'url\("([^"]+)"\)', css):
++            self.assertTrue(path.startswith('./fonts/'))
++            self.assertTrue((ROOT / 'assets' / path).is_file())
++        self.assertNotIn('https:', css)
++    def test_preloads_and_stylesheet_order(self):
++        html = (ROOT / '_site/index.html').read_text()
++        self.assertLess(html.index('./assets/site.css'), html.index('./assets/typography.css'))
++        self.assertEqual(html.count('as="font"'), 2)
++        self.assertIn('./assets/favicon.svg?v=2', html)
++    def test_supplied_favicon_geometry(self):
++        doc = ET.parse(ROOT / 'assets/favicon.svg').getroot()
++        ns = '{http://www.w3.org/2000/svg}'
++        self.assertEqual(doc.attrib['viewBox'], '0 0 64 64')
++        self.assertEqual(doc.find(ns + 'title').text, 'FFREP')
++        self.assertEqual(doc.find(ns + 'path').attrib, {
++            'd': 'M13 25V13h12M39 13h12v12M51 39v12H39M25 51H13V39',
++            'fill': 'none', 'stroke': '#1f211f', 'stroke-linecap': 'round',
++            'stroke-linejoin': 'round', 'stroke-width': '5'})
++        self.assertEqual((ROOT / 'assets/favicon.svg').read_bytes(), (ROOT / '_site/assets/favicon.svg').read_bytes())
++
++if __name__ == '__main__':
++    unittest.main()
+--- a/README.md
++++ b/README.md
+@@ -66,3 +66,11 @@
+ 공개 문안과 승인된 영상·이미지만 담습니다. 학습 코드, 실험 로그, 체크포인트, 세부 설정, 비공개 문서는 포함하지 않습니다. 영상 준비용 임시 워크플로와 원시 소셜 메타데이터도 정식 페이지 소스에 포함하지 않습니다.
+ 
+ 사이트 자체의 분석·광고·추적 코드나 외부 폰트 서비스는 없습니다. 영상 출처 재생 버튼을 누르면 YouTube에 연결됩니다. 포트폴리오·제작자·원본 게시물 링크는 각 외부 사이트로 이동합니다.
++
++## 타이포그래피 · 파비콘
++
++3행 프로젝트명은 첨부된 **MuseoModerno**의 400 굵기, 나머지는 **SUIT**의 400–450 굵기를 사용합니다. 제목 크기는 데스크톱 24px, 모바일 20px로 유지합니다. `assets/typography.css`에서 조정합니다.
++
++두 WOFF2 파일은 작성자가 제공한 파일과 바이트 단위로 같은 파일이며 `assets/fonts/`에서 자체 호스팅합니다. 외부 폰트 서비스를 호출하지 않습니다. 공급된 파일의 체크섬과 대응 라이선스도 보존합니다. 파비콘은 작성자가 첨부한 SVG의 도형을 그대로 사용하고, 내부 접근성 이름만 FFREP로 지정했습니다.
++
++폰트 검사: `python scripts/check_typography.py`. 별도로 설치된 Chromium을 사용할 때는 `BROWSER_EXECUTABLE_PATH`에 실행 파일 경로를 지정합니다.
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -12,6 +12,6 @@
+ - Korean and English are enabled. `content/en.json` translates the approved Korean with the same questions, paragraphs, links, personal opinions and humor. Do not insert extra cautions or silently edit Korean while translating.
+ - Language priority: valid `?lang=ko|en`, then a deliberate saved choice, then the browser's primary language (ko/ko-* -> Korean; everything else -> English). Only manual selection writes the preference. Keep language switching in place without rebuilding videos, iframes or FAQ disclosures.
+ - Square corners, thin neutral separators, restrained typography. Native keyboard-accessible details and video controls. No autoplay, analytics, external font services, runtime libraries or fake telemetry.
+-- Requested typography: the three-line title uses the author's supplied Museo webfont, everything else SUIT, with restrained weights. Use the author's supplied SVG favicon. Do not substitute or claim these assets are applied before the actual files are available; do not redistribute system fonts.
++- Typography uses the author's supplied, checksum-verified MuseoModerno WOFF2 for the three-line title (400) and SUIT WOFF2 everywhere else (400–450). Keep the title modest (24px desktop / 20px mobile). `assets/typography.css` owns the font rules. Self-host these supplied fonts with their licenses; never import system fonts. Preserve the supplied SVG favicon geometry; its accessible title is FFREP.
+ - Build with `python scripts/build.py`; test with `python -m unittest discover -s tests -v`. `python scripts/check_browser.py` runs the optional Playwright integration checks after installing Playwright and Chromium. Visually inspect desktop/mobile and native video playback when layout or media changes.
+ - `_site/` is the deployment allowlist; generated root `index.html` and `_site/` are ignored. Never deploy the whole repository. Browser QA output belongs in ignored `test-results/`, not the public bundle.
+--- a/.github/workflows/pages.yml
++++ b/.github/workflows/pages.yml
+@@ -28,6 +28,8 @@
+           python -m playwright install --with-deps chromium
+       - name: Check languages, layout and playback
+         run: python scripts/check_browser.py
++      - name: Check actual font rendering and restrained typography
++        run: python scripts/check_typography.py
+       - name: Save browser checks
+         if: always()
+         uses: actions/upload-artifact@v4

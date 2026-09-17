@@ -23,9 +23,10 @@ class SiteTests(unittest.TestCase):
     def test_generated_site_is_current(self):
         self.assertEqual((ROOT/'index.html').read_text('utf-8'),self.html)
         self.assertEqual((ROOT/'_site/index.html').read_text('utf-8'),self.html)
-    def test_13_questions_prerendered(self):
-        self.assertEqual(len(self.content['faq']),13)
-        self.assertEqual(sum(t=='details' for t,a in self.dom.nodes),13)
+    def test_15_questions_prerendered(self):
+        self.assertEqual(len(self.content['faq']),15)
+        self.assertEqual(sum(t=='details' for t,a in self.dom.nodes),15)
+        self.assertEqual([q['id'] for q in self.content['faq'][-2:]],['shoki-name','blank-lobe'])
         for q in self.content['faq']:
             self.assertIn(q['question'],self.html)
             for p in q['answer']:self.assertIn(build.rich(p),self.html)

@@ -71,7 +71,7 @@ with sync_playwright() as p:
         assert pg.locator('meta[name=description]').get_attribute('content')==en['meta']['description']
         assert pg.locator('meta[property="og:locale"]').get_attribute('content')=='en_US'
         assert pg.locator('.model-figure img').get_attribute('alt')==en['ui']['modelAlt']
-        assert pg.locator('#avatar .answer a').get_attribute('href')=='https://x.com/Arka_X_'
+        assert pg.locator('#avatar .answer > p a').get_attribute('href')=='https://x.com/Arka_X_'
         assert pg.evaluate("localStorage.getItem('ffrep-language')")=='en'
         pg.goto(base);assert_lang(pg,'en')
         for i in range(6):

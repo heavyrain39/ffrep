@@ -1,0 +1,67 @@
+name: Build and deploy FFREP
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ffrep-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build Korean-first static site
+        run: python scripts/build.py
+      - name: Validate public bundle
+        run: python -m unittest discover -s tests -v
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  pages-status:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+      - name: Check one-time Pages setup
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          code=$(curl -sS -o /tmp/pages.json -w '%{http_code}' \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/pages")
+          if [ "$code" = 200 ]; then
+            echo 'enabled=true' >> "$GITHUB_OUTPUT"
+          elif [ "$code" = 404 ]; then
+            echo 'enabled=false' >> "$GITHUB_OUTPUT"
+            echo '### One-time setup' >> "$GITHUB_STEP_SUMMARY"
+            echo 'Open repository Settings → Pages → Source → GitHub Actions, then run this workflow again. The site artifact is already built; no private experiment files are deployed.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Pages status request failed (HTTP $code). Check the repository permissions."
+            exit 1
+          fi
+  deploy:
+    if: needs.pages-status.outputs.enabled == 'true'
+    needs: [build, pages-status]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Deploy static artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

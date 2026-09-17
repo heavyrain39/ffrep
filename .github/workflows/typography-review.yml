@@ -1,0 +1,47 @@
+name: Validate supplied typography revision
+on:
+  push:
+    branches: [revision/supplied-typography]
+    paths: [.github/workflows/typography-review.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply the scoped typography patch
+        run: |
+          git apply --check typography-review.patch
+          git apply typography-review.patch
+          git diff --exit-code -- content/ko.json content/en.json assets/site.js assets/media
+      - name: Build and test
+        run: |
+          python scripts/build.py
+          python -m unittest discover -s tests -v
+      - name: Install browser
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Check languages, media, font rendering and mobile typography
+        run: |
+          python scripts/check_browser.py
+          python scripts/check_typography.py
+      - name: Commit verified source changes on the staging branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/typography.css assets/favicon.svg scripts/build.py templates/page.html tests/test_site.py scripts/check_browser.py scripts/check_typography.py tests/test_typography.py README.md AGENTS.md .github/workflows/pages.yml
+          git commit -m 'Apply and verify supplied MuseoModerno, SUIT and SVG favicon'
+          git push origin HEAD:revision/supplied-typography
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: typography-browser-review
+          path: test-results/
+          retention-days: 3
+          if-no-files-found: ignore

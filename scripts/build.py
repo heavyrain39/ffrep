@@ -1,36 +1,43 @@
 #!/usr/bin/env python3
-"""Build the public static site using only Python's standard library."""
+"""Build the minimal public FAQ; prose and links are escaped, media allowlisted."""
 from __future__ import annotations
-import argparse
 import html
 import json
 import re
 import shutil
 from pathlib import Path
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 TOKEN = re.compile(r'\{\{([A-Za-z0-9_.]+)\}\}')
+LINK = re.compile(r'\[([^\]\n]+)\]\((https://[^\s)]+)\)')
+MEDIA = ('yumeka-training.mp4', 'yumeka-training.webp', 'shoki-training.mp4',
+         'shoki-training.webp', 'yumeka-model.webp', 'malecns-poster.webp')
+POSTS = {'main': 'https://x.com/yakshawan/status/2099806286468849665',
+         'shoki': 'https://x.com/yakshawan/status/2099813850426245440'}
 
-# Original, illustrative geometry; not imported from an avatar or neural dataset.
-SHOKI = '''<path d="M94 47L167 25L224 56L151 82ZM94 47V98L151 129V82M224 56V106L151 129M94 98L60 128L72 180H47M119 111L101 149L118 197H87M197 111L228 145L217 193H248M224 92L256 119L250 171H275"/>
-<path d="M100 49L155 72L210 55M151 82V119M167 25V54M103 73L117 81M125 85L139 93"/>
-<path d="M55 123H65V133H55ZM96 144H106V154H96ZM223 140H233V150H223ZM251 114H261V124H251Z"/>
-<path d="M28 205H286" stroke-dasharray="3 8" opacity=".35"/>'''
-YUMEKA = '''<path d="M69 12H99L109 23V49L99 60H69L59 49V23ZM77 60V72M92 60V72M44 81L77 72H92L125 81L113 124L97 146H72L56 124ZM72 146L60 172L68 195L58 232H80L86 193L85 170M97 146L109 172L101 195L111 232H89L83 193M44 81L25 121L33 152L21 164M125 81L144 121L136 152L148 164M56 124H113M77 72L69 108L85 127L100 108L92 72"/>
-<path d="M20 117H30V127H20ZM139 117H149V127H139ZM63 190H73V200H63ZM96 190H106V200H96Z"/>
-<path d="M9 246H161" stroke-dasharray="3 8" opacity=".35"/>'''
 
 def lookup(data, path):
     value = data
     for part in path.split('.'):
         value = value[int(part)] if isinstance(value, list) else value[part]
     if not isinstance(value, str):
-        raise ValueError(f'Text key must be a string: {path}')
+        raise ValueError(f'Expected text: {path}')
     return value
 
 
-def text(tag, key, attrs=''):
-    return f'<{tag} data-i18n="{key}"{(" " + attrs) if attrs else ""}>{{{{{key}}}}}</{tag}>'
+def rich(value):
+    """Only explicit HTTPS markdown links are allowed; raw HTML is never trusted."""
+    parts, end = [], 0
+    for match in LINK.finditer(value):
+        url = match[2]
+        if not urlparse(url).hostname or '<' in url or '>' in url:
+            continue
+        parts.append(html.escape(value[end:match.start()]))
+        parts.append(f'<a href="{html.escape(url, quote=True)}" target="_blank" rel="noopener noreferrer">{html.escape(match[1])}</a>')
+        end = match.end()
+    parts.append(html.escape(value[end:]))
+    return ''.join(parts)
 
 
 def flatten(value, prefix=''):
@@ -43,90 +50,112 @@ def flatten(value, prefix=''):
 
 def load():
     manifest = json.loads((ROOT/'content/locales.json').read_text('utf-8'))
-    default = manifest['default']
-    if default != 'ko':
-        raise ValueError('The committed fallback is Korean. Keep ko as default.')
-    data = json.loads((ROOT/f'content/{default}.json').read_text('utf-8'))
-    ids = [q['id'] for q in data['faq']['items']]
-    if len(ids) != len(set(ids)) or any(not re.fullmatch(r'[a-z0-9-]+', i) for i in ids):
-        raise ValueError('FAQ IDs must be unique, URL-safe, and stable across locales.')
-    locales = manifest['languages']
-    if len({x['code'] for x in locales}) != len(locales):
-        raise ValueError('Duplicate locale codes')
-    for lang in locales:
-        if not re.fullmatch(r'[a-z]{2}(?:-[A-Z]{2})?', lang['code']):
-            raise ValueError('Invalid locale code')
-        if not lang['enabled']:
+    if manifest['default'] != 'ko':
+        raise ValueError('Korean is the static fallback.')
+    data = json.loads((ROOT/'content/ko.json').read_text('utf-8'))
+    ids = [q['id'] for q in data['faq']]
+    if len(set(ids)) != len(ids) or any(not re.fullmatch(r'[a-z0-9-]+', i) for i in ids):
+        raise ValueError('FAQ IDs must be unique and URL safe.')
+    base = flatten(data)
+    if not all(isinstance(v, str) for v in base.values()):
+        raise ValueError('Content leaf values must be text.')
+    languages = manifest['languages']
+    if len({l['code'] for l in languages}) != len(languages):
+        raise ValueError('Duplicate locale.')
+    for language in languages:
+        code = language['code']
+        if not re.fullmatch(r'[a-z]{2}', code):
+            raise ValueError('Invalid locale code.')
+        if not language['enabled']:
             continue
-        translated = json.loads((ROOT/f"content/{lang['code']}.json").read_text('utf-8'))
-        if translated['meta']['lang'] != lang['code'] or flatten(translated).keys() != flatten(data).keys():
-            raise ValueError(f"Translation schema mismatch: {lang['code']}")
-        for key, value in flatten(data).items():
-            if (key.endswith('.id') or key.endswith('.category')) and flatten(translated)[key] != value:
-                raise ValueError(f'Stable identifier changed: {key}')
-        if any(not isinstance(v, str) for v in flatten(translated).values()):
-            raise ValueError('Content values must be strings')
+        other = json.loads((ROOT/f'content/{code}.json').read_text('utf-8'))
+        target = flatten(other)
+        if target.keys() != base.keys() or other['meta']['lang'] != code:
+            raise ValueError('Translation is incomplete: '+code)
+        for key, value in base.items():
+            if not isinstance(target[key], str):
+                raise ValueError('Translation value must be text: '+key)
+            if key.endswith(('.id','.media')) and target[key] != value:
+                raise ValueError('Translation changed a stable ID: '+key)
     return data, manifest
 
 
+def tag(name, key, attrs=''):
+    return f'<{name} data-i18n="{key}"{(" "+attrs) if attrs else ""}>{{{{{key}}}}}</{name}>'
+
+
+def video(which, main=False):
+    basename = 'yumeka-training' if main else 'shoki-training'
+    prefix = 'main' if main else 'shoki'
+    cls = 'main-film' if main else 'training-film'
+    return (f'<figure class="{cls}"><video controls playsinline preload="none" width="1280" height="670" '
+            f'poster="./assets/media/{basename}.webp" aria-describedby="{prefix}-description">'
+            f'<source src="./assets/media/{basename}.mp4" type="video/mp4">'
+            +tag('span','ui.videoUnsupported')+'</video>'
+            +tag('p',f'ui.{prefix}Description',f'id="{prefix}-description" class="sr-only"')
+            +f'<figcaption class="caption">'+tag('span',f'ui.{prefix}Caption')
+            +f'<a href="{POSTS[which]}" target="_blank" rel="noopener noreferrer" data-i18n="ui.originalPost">{{{{ui.originalPost}}}}</a></figcaption>'
+            +tag('p','ui.loadError','class="media-error" role="status" hidden')+'</figure>')
+
+
+def media(name):
+    if name == 'shoki-training':
+        return video('shoki')
+    if name == 'yumeka-model':
+        return ('<figure class="model-figure"><a href="https://booth.pm/en/items/8672657" target="_blank" rel="noopener noreferrer">'
+                '<img src="./assets/media/yumeka-model.webp" width="800" height="800" loading="lazy" decoding="async" alt="{{ui.modelAlt}}" data-i18n-attr="alt:ui.modelAlt"></a>'
+                +tag('figcaption','ui.modelCaption')+'</figure>')
+    if name == 'malecns':
+        return ('<figure class="reference-film"><div class="reference-player">'
+                '<button class="reference-cover js-only" type="button" data-video="NFeNxwjzueg" aria-label="{{ui.videoTitle}}" data-i18n-attr="aria-label:ui.videoTitle">'
+                '<img src="./assets/media/malecns-poster.webp" width="480" height="360" loading="lazy" decoding="async" alt="">'
+                +tag('span','ui.playReference')+'</button>'
+                '<noscript><a href="https://www.youtube.com/watch?v=NFeNxwjzueg" target="_blank" rel="noopener noreferrer">'
+                '<img src="./assets/media/malecns-poster.webp" width="480" height="360" alt="{{ui.videoTitle}}" loading="lazy">'
+                '{{ui.playReference}}</a></noscript></div><figcaption>'
+                +tag('span','ui.referenceCaption')
+                +'<a href="https://male-cns.janelia.org/media/" target="_blank" rel="noopener noreferrer" data-i18n="ui.referenceSource">{{ui.referenceSource}}</a></figcaption></figure>')
+    raise ValueError('Media not allowlisted: '+name)
+
+
 def render(data, manifest):
-    blocks = {}
-    blocks['_language_buttons'] = ''.join(
-        f'<button type="button" data-lang="{l["code"]}" aria-label="{html.escape(l["label"], quote=True)}" '
-        f'aria-pressed="{str(l["code"] == manifest["default"]).lower()}"'
-        + ('' if l['enabled'] else ' disabled title="{{ui.comingSoon}}" data-i18n-attr="title:ui.comingSoon"')
-        + f'>{l["code"].upper()}</button>' for l in manifest['languages'])
-    blocks['_essentials'] = ''.join(f'<article class="essential"><span class="essential-number">0{i+1}</span><div>' + text('h2', f'essentials.{i}.label') + text('p', f'essentials.{i}.text') + '</div></article>' for i in range(len(data['essentials'])))
-    blocks['_about_paragraphs'] = ''.join(text('p', f'about.paragraphs.{i}') for i in range(len(data['about']['paragraphs'])))
-    blocks['_flow'] = ''.join(text('div', f'about.loop.{i}', 'class="flow-step"') for i in range(len(data['about']['loop'])))
-    body_cards = []
-    for i, body in enumerate(data['bodies']['items']):
-        geometry = SHOKI if body['id'] == 'shoki' else YUMEKA
-        view = '0 0 320 240' if body['id'] == 'shoki' else '-75 0 320 258'
-        body_cards.append(f'<article class="body-card" id="body-{body["id"]}"><div class="body-card-top"><span class="mono">BODY / 0{i+1}</span>' + text('span', f'bodies.items.{i}.kind') + f'</div><svg class="body-art" viewBox="{view}" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">{geometry}</svg><div class="body-name">' + text('h3',f'bodies.items.{i}.name')+text('span',f'bodies.items.{i}.nameKo')+'</div>'+text('div',f'bodies.items.{i}.tag','class="body-tag"')+text('p',f'bodies.items.{i}.text')+text('p',f'bodies.items.{i}.note','class="body-note"')+'</article>')
-    blocks['_bodies'] = ''.join(body_cards)
-    blocks['_filters'] = ''.join(text('button', f'faq.categories.{i}.label', f'type="button" class="filter" data-category="{c["id"]}" aria-pressed="false"') for i, c in enumerate(data['faq']['categories']))
-    faqs = []
-    for i, q in enumerate(data['faq']['items']):
-        answers = ''.join(text('p',f'faq.items.{i}.answer.{j}') for j in range(len(q['answer'])))
-        faqs.append(f'<details class="faq-item" id="{q["id"]}" data-topic="{q["category"]}"'+(' open' if i == 0 else '')+'><summary><span class="q-number" aria-hidden="true">'+f'{i+1:02d}'+'</span>'+text('span',f'faq.items.{i}.question')+'<span class="plus" aria-hidden="true"></span></summary><div class="answer">'+answers+f'<button type="button" class="permalink js-only" data-copy-question="{q["id"]}"><span aria-hidden="true">↗ </span>'+text('span','ui.questionLink')+'</button></div></details>')
-    blocks['_faqs'] = ''.join(faqs)
-    blocks['_reading_cards'] = ''.join('<article class="reading-card">'+text('span',f'reading.cards.{i}.label','class="reading-mode"')+text('h3',f'reading.cards.{i}.title')+text('p',f'reading.cards.{i}.text')+'</article>' for i in range(len(data['reading']['cards'])))
-    blocks['_shoki_geometry'], blocks['_yumeka_geometry'] = SHOKI, YUMEKA
-    blocks['_site_config'] = json.dumps({'locales':manifest, 'ui':data['ui']},ensure_ascii=False).replace('<', chr(92)+'u003c').replace('>', chr(92)+'u003e').replace('&', chr(92)+'u0026')
-    template = (ROOT/'templates/page.html').read_text('utf-8')
+    languages = ''.join(f'<button type="button" data-lang="{l["code"]}" aria-label="{html.escape(l["label"],quote=True)}" aria-pressed="{str(l["code"]==manifest["default"]).lower()}"'
+        +('' if l['enabled'] else ' disabled title="{{ui.englishSoon}}"')+f'>{l["code"].upper()}</button>' for l in manifest['languages'])
+    questions = []
+    for i, question in enumerate(data['faq']):
+        answers = ''.join(f'<p data-rich="faq.{i}.answer.{j}">{rich(p)}</p>' for j,p in enumerate(question['answer']))
+        picture = media(question['media']) if question.get('media') else ''
+        questions.append(f'<details class="faq-item" id="{question["id"]}"><summary><span class="question-number">{i+1:02d}</span>'
+            +tag('span',f'faq.{i}.question')+'<span class="indicator" aria-hidden="true">+</span></summary><div class="answer">'+answers+picture+'</div></details>')
+    config = json.dumps({'locales':manifest, 'ui':data['ui']},ensure_ascii=False).replace('<',r'\u003c').replace('>',r'\u003e').replace('&',r'\u0026')
+    blocks = {'_languages':languages, '_main_video':video('main',True), '_faqs':''.join(questions), '_config':config}
+    result = (ROOT/'templates/page.html').read_text('utf-8')
     for key, value in blocks.items():
-        template = template.replace('{{'+key+'}}', value)
-    result = TOKEN.sub(lambda m: html.escape(lookup(data,m[1]),quote=True), template)
-    if '{{' in result or '}}' in result:
-        # JSON in the config may have consecutive braces. Only unresolved placeholders are errors.
-        if re.search(r'\{\{[a-zA-Z_]', result):
-            raise ValueError('Unresolved placeholder')
-    return result
+        result=result.replace('{{'+key+'}}',value)
+    return TOKEN.sub(lambda m:html.escape(lookup(data,m[1]),quote=True),result)
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--check', action='store_true', help='Fail when generated index.html is stale.')
-    args=parser.parse_args()
     data, manifest = load()
-    rendered = render(data,manifest)
-    index=ROOT/'index.html'
-    if args.check:
-        if not index.exists() or index.read_text('utf-8') != rendered:
-            raise SystemExit('index.html is stale. Run python scripts/build.py.')
-    else:
-        index.write_text(rendered,'utf-8')
+    rendered=render(data,manifest)
+    (ROOT/'index.html').write_text(rendered,'utf-8')
     out=ROOT/'_site'
     if out.exists(): shutil.rmtree(out)
-    out.mkdir()
-    (out/'index.html').write_text(rendered,'utf-8')
-    shutil.copytree(ROOT/'assets',out/'assets')
+    (out/'assets/media').mkdir(parents=True)
     (out/'content').mkdir()
+    (out/'index.html').write_text(rendered,'utf-8')
+    for name in ('site.css','site.js','favicon.svg'):
+        shutil.copy2(ROOT/'assets'/name,out/'assets'/name)
+    for name in MEDIA:
+        path=ROOT/'assets/media'/name
+        if not path.is_file(): raise FileNotFoundError('Missing public asset: '+name)
+        shutil.copy2(path,out/'assets/media'/name)
     shutil.copy2(ROOT/'content/locales.json',out/'content/locales.json')
-    for lang in manifest['languages']:
-        if lang['enabled']: shutil.copy2(ROOT/f"content/{lang['code']}.json", out/f"content/{lang['code']}.json")
+    for language in manifest['languages']:
+        if language['enabled']:
+            name=language['code']+'.json'
+            shutil.copy2(ROOT/'content'/name,out/'content'/name)
     (out/'.nojekyll').touch()
-    print(f'Built {len(data["faq"]["items"])} Korean FAQs; enabled locales: '+', '.join(l['code'] for l in manifest['languages'] if l['enabled']))
+    print(f'Built {len(data["faq"])} FAQs with original project media.')
 
-if __name__=='__main__': main()
+if __name__=='__main__':main()

@@ -1,0 +1,46 @@
+[
+  {
+    "name": "yumeka-training",
+    "source": "https://x.com/yakshawan/status/2099806286468849665",
+    "published": "Tue Sep 15 10:23:25 +0000 2026",
+    "description": "탐색 노이즈 ON 상태로 훈련 중인 모습. 일부러 시행착오를 늘리는 일종의 연습 모드 같은 것임. 목표는 자극원에 도달하는 것이지만, 원래 내보내려고 했던 관절 명령에 약간의 무작위 변화를 섞어서 평소와 다른 움직임도 시험하고 잘된 것은 반영하게 돼 있음. 활기가 넘쳐서 좋군. 😊",
+    "kind": "video",
+    "file": "yumeka-training.mp4",
+    "poster": "yumeka-training.webp",
+    "duration": 24.9,
+    "edit": "Web compression; audio removed; full frame and playback speed retained.",
+    "sha256": "8ecd2da40b918fbf6a0bf6031668cd0251d38a9a61bf471932ad0ddcad77f073",
+    "bytes": 1120824
+  },
+  {
+    "name": "shoki-training",
+    "source": "https://x.com/yakshawan/status/2099813850426245440",
+    "published": "Tue Sep 15 10:53:29 +0000 2026",
+    "description": "병렬 훈련 중인 4족 메카 '쇼키'의 경우 훈련 중에 간간이 자극원에 도달하는 모습이 보이기 시작했음. 자극원에 가까이 가면 얼굴 주변에 하트가 떠오른다. 이대로 훈련한다면 상당히 안정적으로 이동할 수 있게 될지도.",
+    "kind": "video",
+    "file": "shoki-training.mp4",
+    "poster": "shoki-training.webp",
+    "duration": 21.133,
+    "edit": "Web compression; audio removed; full frame and playback speed retained.",
+    "sha256": "52afbab537a87a32e5db7a886360be3615613c7d797b7444afd8bf66287153f9",
+    "bytes": 1059152
+  },
+  {
+    "name": "yumeka-model",
+    "file": "yumeka-model.webp",
+    "source": "https://booth.pm/en/items/8672657",
+    "credit": "Yumeka original 3D model and promotional image by Arka_X. Reference image accompanying attribution; rights retained by Arka_X.",
+    "edit": "Resized; no model geometry redistributed.",
+    "sha256": "584524ebed7cbdfdaedbd46335cc6f16ea83a290f579551a3fc99e9235691a5d",
+    "bytes": 115200
+  },
+  {
+    "name": "malecns-poster",
+    "file": "malecns-poster.webp",
+    "source": "https://www.youtube.com/watch?v=NFeNxwjzueg",
+    "credit": "MaleCNS visualization by Philip Hubbard / HHMI Janelia. Thumbnail for a click-to-load source-video embed.",
+    "edit": "Web compression.",
+    "sha256": "64005d92e9b8d8d23823df416bfa9afac7faa24cf763e6bc0b5fbf83676075e6",
+    "bytes": 20910
+  }
+]

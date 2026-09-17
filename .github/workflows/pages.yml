@@ -26,6 +26,8 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Check languages, layout and playback
         run: python scripts/check_browser.py
+      - name: Check actual font rendering and restrained typography
+        run: python scripts/check_typography.py
       - name: Save browser checks
         if: always()
         uses: actions/upload-artifact@v4

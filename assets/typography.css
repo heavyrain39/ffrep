@@ -1,0 +1,59 @@
+/* Author-supplied variable webfonts. Served locally; no font service requests. */
+@font-face {
+  font-family: "MuseoModerno";
+  src: url("./fonts/MuseoModerno-Variable-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SUIT";
+  src: url("./fonts/SUIT-Variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+:root {
+  --sans: "SUIT", "Apple SD Gothic Neo", "Noto Sans CJK KR", "Malgun Gothic", system-ui, sans-serif;
+  --mono: var(--sans);
+}
+body {
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -.012em;
+}
+.masthead { gap: 24px; }
+.masthead h1 {
+  font-family: "MuseoModerno", var(--sans);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.28;
+  letter-spacing: -.018em;
+}
+.language { font-size: 12px; font-weight: 400; letter-spacing: .035em; flex-shrink: 0; }
+.intro h2 { font-weight: 450; letter-spacing: -.025em; }
+.intro p { font-size: 14px; line-height: 1.85; }
+.faq-heading h2 { font-weight: 450; letter-spacing: .025em; }
+.faq-item summary { font-size: 15.5px; font-weight: 450; line-height: 1.8; }
+.question-number { font-variant-numeric: tabular-nums; font-size: 11.5px; font-weight: 400; }
+.answer { font-size: 14.5px; font-weight: 400; line-height: 1.9; }
+.caption, .answer figcaption { font-size: 11.5px; }
+html[lang="en"] body { word-break: normal; letter-spacing: 0; }
+html[lang="en"] .intro h2 { letter-spacing: -.012em; }
+html[lang="en"] .answer { line-height: 1.8; }
+@media(max-width:800px) {
+  .masthead h1 { font-size: 22px; }
+  .intro p { font-size: 13.5px; }
+  .faq-item summary { font-size: 15px; }
+  .answer { font-size: 14px; }
+}
+@media(max-width:560px) {
+  .masthead { gap: 16px; }
+  .masthead h1 { font-size: 20px; }
+  .language { font-size: 11px; gap: 11px; }
+  .intro h2 { font-size: 17px; }
+  .intro p { font-size: 13.5px; }
+  .faq-item summary { font-size: 14.5px; }
+  .answer { font-size: 13.5px; line-height: 1.9; }
+  .caption, .answer figcaption { font-size: 10.5px; }
+}

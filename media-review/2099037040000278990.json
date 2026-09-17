@@ -1,0 +1,292 @@
+{
+  "code": 200,
+  "message": "OK",
+  "tweet": {
+    "url": "https://x.com/yakshawan/status/2099037040000278990",
+    "id": "2099037040000278990",
+    "text": "초파리 뇌에 미소녀 3D 아바타 달아주기 실험 1일차. 대략 12시간 넘게 훈련했는데 적응할 기미가 전혀 안 보이는군. 😓 학습량이 부족한 건지 국소 최적점에 빠진 건지 잘 모르겠어서 일단 조금씩 조정해 가며 훈련을 계속해볼 생각.",
+    "raw_text": {
+      "text": "초파리 뇌에 미소녀 3D 아바타 달아주기 실험 1일차. 대략 12시간 넘게 훈련했는데 적응할 기미가 전혀 안 보이는군. 😓 학습량이 부족한 건지 국소 최적점에 빠진 건지 잘 모르겠어서 일단 조금씩 조정해 가며 훈련을 계속해볼 생각. https://t.co/phN0JnCxNf",
+      "display_text_range": [
+        0,
+        129
+      ],
+      "facets": [
+        {
+          "type": "media",
+          "indices": [
+            130,
+            153
+          ],
+          "id": "2099036207888113664",
+          "display": "pic.x.com/phN0JnCxNf",
+          "original": "https://t.co/phN0JnCxNf",
+          "replacement": "https://x.com/yakshawan/status/2099037040000278990/video/1"
+        }
+      ]
+    },
+    "author": {
+      "screen_name": "yakshawan",
+      "url": "https://x.com/yakshawan",
+      "id": "3242246588",
+      "followers": 1583,
+      "following": 307,
+      "likes": 56403,
+      "media_count": 2781,
+      "name": "야차완",
+      "description": "✦ 웹소설 작가/기획자/1인 개발자 #INTP\n✦ 개발한 것들:\n› 집중을 돕는 브라운 노이즈 익스텐션 〈TAKT〉\n› 플리 운영을 위한 음원 마스터링 툴 〈마스터마인드〉\n› AI 미소녀 스크린메이트 〈하루나 온 스크린〉\n› 그외 다수",
+      "raw_description": {
+        "text": "✦ 웹소설 작가/기획자/1인 개발자 #INTP\n✦ 개발한 것들:\n› 집중을 돕는 브라운 노이즈 익스텐션 〈TAKT〉\n› 플리 운영을 위한 음원 마스터링 툴 〈마스터마인드〉\n› AI 미소녀 스크린메이트 〈하루나 온 스크린〉\n› 그외 다수",
+        "facets": []
+      },
+      "location": "서울",
+      "banner_url": "",
+      "avatar_url": "https://pbs.twimg.com/profile_images/1969539622306004995/w4hYGuMH_200x200.jpg",
+      "joined": "Thu Jun 11 12:00:14 +0000 2015",
+      "protected": false,
+      "website": {
+        "url": "https://heavyrain39.github.io/portfolio/",
+        "display_url": "heavyrain39.github.io/portfolio/"
+      },
+      "verification": {
+        "verified": false,
+        "verified_at": null,
+        "type": null
+      },
+      "avatar_color": null
+    },
+    "replies": 107,
+    "retweets": 2441,
+    "likes": 9770,
+    "bookmarks": 2933,
+    "quotes": 831,
+    "created_at": "Sun Sep 13 07:26:43 +0000 2026",
+    "created_timestamp": 1789284403,
+    "possibly_sensitive": false,
+    "views": 5155329,
+    "is_note_tweet": false,
+    "community_note": null,
+    "lang": "ko",
+    "replying_to": null,
+    "replying_to_status": null,
+    "media": {
+      "all": [
+        {
+          "id": "2099036207888113664",
+          "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/1376x720/BfqWabTdtZpPeJAn.mp4?tag=14",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2099036207888113664/img/bgt77_kMBNF1FGsY.jpg",
+          "duration": 17.966,
+          "width": 1720,
+          "height": 900,
+          "format": "video/mp4",
+          "type": "video",
+          "formats": [
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/pl/0EBFW_mPouIPkmPm.m3u8?tag=14&v=cfc",
+              "container": "m3u8"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/516x270/1VOVZJDiVFrTjIl1.mp4?tag=14",
+              "bitrate": 288000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/688x360/prOukPGIYJOyaHTs.mp4?tag=14",
+              "bitrate": 832000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/1376x720/BfqWabTdtZpPeJAn.mp4?tag=14",
+              "bitrate": 2176000,
+              "container": "mp4",
+              "codec": "h264"
+            }
+          ],
+          "publisher": null,
+          "variants": [
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/pl/0EBFW_mPouIPkmPm.m3u8?tag=14&v=cfc",
+              "bitrate": 0,
+              "content_type": "application/x-mpegURL"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/516x270/1VOVZJDiVFrTjIl1.mp4?tag=14",
+              "bitrate": 288000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/688x360/prOukPGIYJOyaHTs.mp4?tag=14",
+              "bitrate": 832000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/1376x720/BfqWabTdtZpPeJAn.mp4?tag=14",
+              "bitrate": 2176000,
+              "content_type": "video/mp4"
+            }
+          ]
+        }
+      ],
+      "videos": [
+        {
+          "id": "2099036207888113664",
+          "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/1376x720/BfqWabTdtZpPeJAn.mp4?tag=14",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2099036207888113664/img/bgt77_kMBNF1FGsY.jpg",
+          "duration": 17.966,
+          "width": 1720,
+          "height": 900,
+          "format": "video/mp4",
+          "type": "video",
+          "formats": [
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/pl/0EBFW_mPouIPkmPm.m3u8?tag=14&v=cfc",
+              "container": "m3u8"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/516x270/1VOVZJDiVFrTjIl1.mp4?tag=14",
+              "bitrate": 288000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/688x360/prOukPGIYJOyaHTs.mp4?tag=14",
+              "bitrate": 832000,
+              "container": "mp4",
+              "codec": "h264"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/1376x720/BfqWabTdtZpPeJAn.mp4?tag=14",
+              "bitrate": 2176000,
+              "container": "mp4",
+              "codec": "h264"
+            }
+          ],
+          "publisher": null,
+          "variants": [
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/pl/0EBFW_mPouIPkmPm.m3u8?tag=14&v=cfc",
+              "bitrate": 0,
+              "content_type": "application/x-mpegURL"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/516x270/1VOVZJDiVFrTjIl1.mp4?tag=14",
+              "bitrate": 288000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/688x360/prOukPGIYJOyaHTs.mp4?tag=14",
+              "bitrate": 832000,
+              "content_type": "video/mp4"
+            },
+            {
+              "url": "https://video.twimg.com/amplify_video/2099036207888113664/vid/avc1/1376x720/BfqWabTdtZpPeJAn.mp4?tag=14",
+              "bitrate": 2176000,
+              "content_type": "video/mp4"
+            }
+          ]
+        }
+      ]
+    },
+    "quote": {
+      "url": "https://x.com/yakshawan/status/2098413419204669909",
+      "id": "2098413419204669909",
+      "text": "불운하게도 눈과 뇌가 잘게 잘려 스캔되고, 신경계가 동결되어 깃허브에 오픈소스로 전시되고 공유된 그 한 마리의 초파리에게 지금의 사태는 5억 년 버튼과 체감상 동일할 것 같다. 그 생각이 머릿속을 떠나지 않음. 그러면서도 나는 그 초파리의 뇌에 미소녀 아바타를 달아서 움직이게 하고 있다.",
+      "raw_text": {
+        "text": "불운하게도 눈과 뇌가 잘게 잘려 스캔되고, 신경계가 동결되어 깃허브에 오픈소스로 전시되고 공유된 그 한 마리의 초파리에게 지금의 사태는 5억 년 버튼과 체감상 동일할 것 같다. 그 생각이 머릿속을 떠나지 않음. 그러면서도 나는 그 초파리의 뇌에 미소녀 아바타를 달아서 움직이게 하고 있다. https://t.co/5Rt0s6IxiU",
+        "display_text_range": [
+          0,
+          161
+        ],
+        "facets": [
+          {
+            "type": "media",
+            "indices": [
+              162,
+              185
+            ],
+            "id": "2098413384094117888",
+            "display": "pic.x.com/5Rt0s6IxiU",
+            "original": "https://t.co/5Rt0s6IxiU",
+            "replacement": "https://x.com/yakshawan/status/2098413419204669909/photo/1"
+          }
+        ]
+      },
+      "author": {
+        "screen_name": "yakshawan",
+        "url": "https://x.com/yakshawan",
+        "id": "3242246588",
+        "followers": 1583,
+        "following": 307,
+        "likes": 56403,
+        "media_count": 2781,
+        "name": "야차완",
+        "description": "✦ 웹소설 작가/기획자/1인 개발자 #INTP\n✦ 개발한 것들:\n› 집중을 돕는 브라운 노이즈 익스텐션 〈TAKT〉\n› 플리 운영을 위한 음원 마스터링 툴 〈마스터마인드〉\n› AI 미소녀 스크린메이트 〈하루나 온 스크린〉\n› 그외 다수",
+        "raw_description": {
+          "text": "✦ 웹소설 작가/기획자/1인 개발자 #INTP\n✦ 개발한 것들:\n› 집중을 돕는 브라운 노이즈 익스텐션 〈TAKT〉\n› 플리 운영을 위한 음원 마스터링 툴 〈마스터마인드〉\n› AI 미소녀 스크린메이트 〈하루나 온 스크린〉\n› 그외 다수",
+          "facets": []
+        },
+        "location": "서울",
+        "banner_url": "",
+        "avatar_url": "https://pbs.twimg.com/profile_images/1969539622306004995/w4hYGuMH_200x200.jpg",
+        "joined": "Thu Jun 11 12:00:14 +0000 2015",
+        "protected": false,
+        "website": {
+          "url": "https://heavyrain39.github.io/portfolio/",
+          "display_url": "heavyrain39.github.io/portfolio/"
+        },
+        "verification": {
+          "verified": false,
+          "verified_at": null,
+          "type": null
+        },
+        "avatar_color": null
+      },
+      "replies": 9,
+      "retweets": 517,
+      "likes": 1977,
+      "bookmarks": 311,
+      "quotes": 69,
+      "created_at": "Fri Sep 11 14:08:40 +0000 2026",
+      "created_timestamp": 1789135720,
+      "possibly_sensitive": false,
+      "views": 771840,
+      "is_note_tweet": false,
+      "community_note": null,
+      "lang": "ko",
+      "replying_to": null,
+      "replying_to_status": null,
+      "media": {
+        "all": [
+          {
+            "type": "photo",
+            "id": "2098413384094117888",
+            "url": "https://pbs.twimg.com/media/HR8P2t7a8AAsVid.jpg?name=orig",
+            "width": 2559,
+            "height": 1388
+          }
+        ],
+        "photos": [
+          {
+            "type": "photo",
+            "id": "2098413384094117888",
+            "url": "https://pbs.twimg.com/media/HR8P2t7a8AAsVid.jpg?name=orig",
+            "width": 2559,
+            "height": 1388
+          }
+        ]
+      },
+      "source": "Twitter Web App",
+      "twitter_card": "summary_large_image",
+      "color": null,
+      "provider": "twitter",
+      "reposted_by": null
+    },
+    "source": "Twitter Web App",
+    "twitter_card": "player",
+    "color": null,
+    "provider": "twitter",
+    "reposted_by": null
+  }
+}

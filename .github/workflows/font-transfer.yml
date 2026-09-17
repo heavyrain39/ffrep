@@ -1,0 +1,83 @@
+name: Stage exact supplied webfonts
+on:
+  push:
+    branches: [revision/supplied-typography]
+    paths: [.github/workflows/font-transfer.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve byte-identical copies of the two supplied fonts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import urllib.request, hashlib, json, re
+          root=Path('assets/fonts'); root.mkdir(parents=True,exist_ok=True)
+          ua='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+          def get(url):
+              req=urllib.request.Request(url,headers={'User-Agent':ua})
+              with urllib.request.urlopen(req,timeout=30) as r:
+                  return r.read(2000000)
+          fonts=[
+            ('SUIT-Variable.woff2','aa894a204d5a6fbae259dac6868d350cbd373a390caee0313f92946af741df23',[
+              'https://raw.githubusercontent.com/sun-typeface/SUIT/main/fonts/variable/woff2/SUIT-Variable.woff2',
+              'https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.woff2',
+              'https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.woff2']),
+            ('MuseoModerno-Variable-latin.woff2','8df17b9c94983ee6490a8004e422123c5503a40ad59cc32d39e02d202561382e',[
+              'https://cdn.jsdelivr.net/fontsource/fonts/museomoderno:vf@5.3.0/latin-wght-normal.woff2',
+              'https://cdn.jsdelivr.net/npm/@fontsource-variable/museomoderno@5.2.5/files/museomoderno-latin-wght-normal.woff2'])]
+          try:
+              css=get('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@100..900&display=swap').decode()
+              fonts[1][2].extend(re.findall(r'url\((https://fonts.gstatic.com/[^)]+\.woff2)\)',css))
+          except Exception as e:
+              print('Google font URL lookup:',type(e).__name__)
+          records=[]
+          for name,expected,urls in fonts:
+              matched=False
+              for url in dict.fromkeys(urls):
+                  try:
+                      blob=get(url); actual=hashlib.sha256(blob).hexdigest()
+                      print(name,len(blob),actual,url)
+                      if actual!=expected: continue
+                      assert blob[:4]==b'wOF2'
+                      (root/name).write_bytes(blob)
+                      records.append({'file':name,'sha256':expected,'bytes':len(blob),'source':url,'verification':'Exact SHA-256 match to the author-uploaded file; not a substitute.'})
+                      matched=True;break
+                  except Exception as e: print(type(e).__name__,str(e)[:160])
+              if not matched: raise SystemExit('No byte-identical upstream copy found for '+name)
+          licenses={
+            'SUIT-OFL.txt':['https://raw.githubusercontent.com/sun-typeface/SUIT/main/LICENSE','https://raw.githubusercontent.com/sun-typeface/SUIT/main/OFL.txt'],
+            'MuseoModerno-OFL.txt':['https://raw.githubusercontent.com/google/fonts/main/ofl/museomoderno/OFL.txt']}
+          for name,urls in licenses.items():
+              for url in urls:
+                  try:
+                      body=get(url).decode('utf-8')
+                      assert 'SIL OPEN FONT LICENSE' in body
+                      (root/name).write_text(body,encoding='utf-8');break
+                  except Exception as e: print('License lookup',name,type(e).__name__)
+              else: raise SystemExit('Missing upstream license: '+name)
+          (root/'sources.json').write_text(json.dumps(records,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - name: Commit verified assets to the staging branch only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/fonts
+          if ! git diff --cached --quiet; then
+            git commit -m 'Stage supplied MuseoModerno and SUIT files with exact checksum verification'
+            git push origin HEAD:revision/supplied-typography
+          fi
+      - name: Package source snapshot for local verification
+        if: always()
+        run: |
+          tar -czf /tmp/ffrep-typography-source.tar.gz --exclude=.git --exclude=.github --exclude=test-results --exclude=_site .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: typography-source
+          path: /tmp/ffrep-typography-source.tar.gz
+          retention-days: 1

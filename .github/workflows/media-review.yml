@@ -11,39 +11,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python -m pip install pillow
+      - run: python -m pip install pillow imageio-ffmpeg
       - name: Preserve selected public media, without private data
         run: |
-          mkdir -p media-review assets/media
+          mkdir -p assets/media
           python - <<'PY'
           import json, urllib.request, pathlib, subprocess, hashlib, io
+          import imageio_ffmpeg
           from PIL import Image
+          ffmpeg=imageio_ffmpeg.get_ffmpeg_exe()
           root=pathlib.Path('assets/media'); records=[]
           def get(url):
               req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
               with urllib.request.urlopen(req,timeout=90) as response:
-                  blob=response.read(35000000)
-              return blob
-          for name,ident in [('yumeka-training','2099806286468849665'),('shoki-training','2099813850426245440'),('yumeka-room','2100439720832696553')]:
+                  return response.read(35000000)
+          for name,ident in [('yumeka-training','2099806286468849665'),('shoki-training','2099813850426245440')]:
               data=json.loads(get(f'https://api.fxtwitter.com/yakshawan/status/{ident}'))['tweet']
               assert data['author']['screen_name'].lower()=='yakshawan'
               media=data['media']['all'][0]
+              assert media['type']=='video'
               record={'name':name,'source':data['url'],'published':data['created_at'],'description':data['text'],'kind':media['type']}
-              if media['type']=='video':
-                  raw=root/f'{name}-source.mp4';raw.write_bytes(get(media['url']))
-                  output=root/f'{name}.mp4'
-                  subprocess.run(['ffmpeg','-y','-i',str(raw),'-map','0:v:0','-an','-vf','scale=1280:-2','-c:v','libx264','-crf','25','-preset','fast','-pix_fmt','yuv420p','-movflags','+faststart',str(output)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                  raw.unlink()
-                  subprocess.run(['ffmpeg','-y','-ss','2','-i',str(output),'-frames:v','1',str(root/f'{name}.png')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-                  im=Image.open(root/f'{name}.png'); im.save(root/f'{name}.webp',quality=88);(root/f'{name}.png').unlink()
-                  record.update(file=output.name,poster=f'{name}.webp',duration=media.get('duration'),edit='Web compression; audio removed; full frame retained.')
-              else:
-                  im=Image.open(io.BytesIO(get(media['url']))).convert('RGB');im.thumbnail((1800,1800));im.save(root/f'{name}.webp',quality=88)
-                  record.update(file=f'{name}.webp',edit='Web compression; full frame retained.')
+              raw=root/f'{name}-source.mp4';raw.write_bytes(get(media['url']))
+              output=root/f'{name}.mp4'
+              subprocess.run([ffmpeg,'-y','-i',str(raw),'-map','0:v:0','-an','-vf','scale=1280:-2','-c:v','libx264','-crf','25','-preset','fast','-pix_fmt','yuv420p','-movflags','+faststart',str(output)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              raw.unlink()
+              subprocess.run([ffmpeg,'-y','-ss','2','-i',str(output),'-frames:v','1',str(root/f'{name}.png')],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              im=Image.open(root/f'{name}.png'); im.save(root/f'{name}.webp',quality=88);(root/f'{name}.png').unlink()
+              record.update(file=output.name,poster=f'{name}.webp',duration=media.get('duration'),edit='Web compression; audio removed; full frame and playback speed retained.')
               records.append(record)
           url='https://booth.pximg.net/00de3e71-64a2-4d37-8ba6-7a6db3354b8f/i/8672657/345a597c-2f14-4463-bd84-f83656d670f7_base_resized.jpg'
           im=Image.open(io.BytesIO(get(url))).convert('RGB');im.thumbnail((800,800));im.save(root/'yumeka-model.webp',quality=88)
           records.append({'name':'yumeka-model','file':'yumeka-model.webp','source':'https://booth.pm/en/items/8672657','credit':'Yumeka original 3D model and promotional image by Arka_X. Reference image accompanying attribution; rights retained by Arka_X.','edit':'Resized; no model geometry redistributed.'})
+          im=Image.open(io.BytesIO(get('https://i.ytimg.com/vi/NFeNxwjzueg/hqdefault.jpg'))).convert('RGB');im.save(root/'malecns-poster.webp',quality=88)
+          records.append({'name':'malecns-poster','file':'malecns-poster.webp','source':'https://www.youtube.com/watch?v=NFeNxwjzueg','credit':'MaleCNS visualization by Philip Hubbard / HHMI Janelia. Thumbnail for a click-to-load source-video embed.','edit':'Web compression.'})
           for r in records:
               r['sha256']=hashlib.sha256((root/r['file']).read_bytes()).hexdigest()
               r['bytes']=(root/r['file']).stat().st_size

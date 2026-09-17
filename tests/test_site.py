@@ -3,6 +3,7 @@ import importlib.util
 import json
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import urlparse
 import unittest
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -36,6 +37,7 @@ class SiteTests(unittest.TestCase):
             for attr in ('href','src','poster'):
                 value=attrs.get(attr,'')
                 if value.startswith('./'):
+                    value=urlparse(value).path
                     self.assertTrue((ROOT/value[2:]).is_file(),value)
                     self.assertTrue((ROOT/'_site'/value[2:]).is_file(),value)
                 if value.startswith('#'):self.assertIn(value[1:],self.dom.ids)
@@ -67,9 +69,10 @@ class SiteTests(unittest.TestCase):
         enabled=next(l['enabled'] for l in self.locales['languages'] if l['code']=='en')
         self.assertEqual('disabled' in en,not enabled)
     def test_public_allowlist_and_no_private_recipe(self):
-        allowed={'index.html','.nojekyll','assets/site.css','assets/site.js','assets/favicon.svg','content/locales.json'}
+        allowed={'index.html','.nojekyll','assets/site.css','assets/typography.css','assets/site.js','assets/favicon.svg','content/locales.json'}
         allowed|={'content/'+l['code']+'.json' for l in self.locales['languages'] if l['enabled']}
         allowed|={'assets/media/'+name for name in build.MEDIA}
+        allowed|={'assets/fonts/'+name for name in build.FONTS}
         actual={p.relative_to(ROOT/'_site').as_posix() for p in (ROOT/'_site').rglob('*') if p.is_file()}
         self.assertEqual(actual,allowed)
         for path in (ROOT/'_site').rglob('*'):

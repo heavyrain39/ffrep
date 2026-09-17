@@ -1,1 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path fill="#f8f8f5" d="M0 0H40V40H0Z"/><text x="4" y="27" fill="#292e30" font-family="monospace" font-size="25">FF</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">FFREP</title>
+  <path d="M13 25V13h12M39 13h12v12M51 39v12H39M25 51H13V39" fill="none" stroke="#1f211f" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+</svg>

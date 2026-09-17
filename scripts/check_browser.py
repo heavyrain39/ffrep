@@ -21,7 +21,7 @@ base=f'http://127.0.0.1:{server.server_port}/'
 ko=json.loads((root/'content/ko.json').read_text());en=json.loads((root/'content/en.json').read_text())
 results=[]
 with sync_playwright() as p:
-    browser=p.chromium.launch(headless=True)
+    browser=p.chromium.launch(headless=True, executable_path=os.environ.get('BROWSER_EXECUTABLE_PATH') or None)
     def test(name,fn):
         try:fn();results.append({'test':name,'passed':True});print('PASS',name,flush=True)
         except Exception as exc:results.append({'test':name,'passed':False,'error':str(exc)});print('FAIL',name,str(exc),flush=True);(output/'browser-tests.json').write_text(json.dumps(results,ensure_ascii=False,indent=2));raise

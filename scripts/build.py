@@ -13,6 +13,8 @@ TOKEN = re.compile(r'\{\{([A-Za-z0-9_.]+)\}\}')
 LINK = re.compile(r'\[([^\]\n]+)\]\((https://[^\s)]+)\)')
 MEDIA = ('yumeka-training.mp4', 'yumeka-training.webp', 'shoki-training.mp4',
          'shoki-training.webp', 'yumeka-model.webp', 'malecns-poster.webp')
+FONTS = ('MuseoModerno-Variable-latin.woff2', 'SUIT-Variable.woff2',
+         'MuseoModerno-OFL.txt', 'SUIT-OFL.txt')
 POSTS = {'main': 'https://x.com/yakshawan/status/2099806286468849665',
          'shoki': 'https://x.com/yakshawan/status/2099813850426245440'}
 
@@ -151,8 +153,11 @@ def main():
     (out/'assets/media').mkdir(parents=True)
     (out/'content').mkdir()
     (out/'index.html').write_text(rendered,'utf-8')
-    for name in ('site.css','site.js','favicon.svg'):
+    for name in ('site.css','typography.css','site.js','favicon.svg'):
         shutil.copy2(ROOT/'assets'/name,out/'assets'/name)
+    (out/'assets/fonts').mkdir()
+    for name in FONTS:
+        shutil.copy2(ROOT/'assets/fonts'/name,out/'assets/fonts'/name)
     for name in MEDIA:
         path=ROOT/'assets/media'/name
         if not path.is_file(): raise FileNotFoundError('Missing public asset: '+name)

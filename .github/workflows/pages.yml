@@ -16,10 +16,24 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Build Korean-first static site
+      - name: Build bilingual static site
         run: python scripts/build.py
       - name: Validate public bundle
         run: python -m unittest discover -s tests -v
+      - name: Install browser test tools
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Check languages, layout and playback
+        run: python scripts/check_browser.py
+      - name: Save browser checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-checks
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

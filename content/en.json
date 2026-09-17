@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "lang": "en",
+    "title": "Fruit Fly Re-Embodiment Project",
+    "description": "A fruit fly neural network in two unfamiliar bodies: SHOKI, a four-legged robot, and YUMEKA, an anime girl avatar. A project about the movements they develop.",
+    "updated": "2026-09-17"
+  },
+  "ui": {
+    "skip": "Skip to content",
+    "language": "Language",
+    "englishSoon": "English coming soon",
+    "faq": "FAQ",
+    "videoUnsupported": "Your browser doesn't support video playback.",
+    "playReference": "Play on YouTube",
+    "videoTitle": "MaleCNS connectome introduction video",
+    "referenceCaption": "MaleCNS connectome · HHMI Janelia / Philip Hubbard",
+    "referenceSource": "Data and video source",
+    "portfolio": "Portfolio",
+    "mainCaption": "YUMEKA · Training with exploration ON · Sep 15, 2026",
+    "mainDescription": "A publicly shared training video of YUMEKA moving her limbs while her body rests on the floor. Neural activity appears on the left, with an overhead view of her movement on the right.",
+    "shokiCaption": "SHOKI · Training with exploration ON · Sep 15, 2026",
+    "shokiDescription": "A publicly shared training video of SHOKI using its four legs to move toward a stimulus source. Neural activity and an overhead view of its movement are shown alongside it.",
+    "modelCaption": "Original Yumeka model promotional image · Arka_X",
+    "modelAlt": "Official promotional image for Arka_X's original 3D model, Yumeka",
+    "originalPost": "Original post",
+    "modelPage": "Model download page",
+    "loadError": "The video couldn't be loaded. You can watch it in the original post."
+  },
+  "intro": {
+    "title": "FRUIT FLY\nRE-EMBODIMENT\nPROJECT",
+    "question": "How would an anime girl move with a fruit fly brain?",
+    "text": "SHOKI, a four-legged robot, and YUMEKA, an anime girl avatar, each get a fruit fly neural network. This project follows the movements they develop in their new bodies."
+  },
+  "faq": [
+    {
+      "id": "neural-network",
+      "question": "Are you using an actual fruit fly neural network?",
+      "answer": [
+        "Yes. I use MaleCNS, a map of a male fruit fly's central nervous system published by researchers from Google Research, HHMI Janelia, Cambridge, and other collaborators. It includes both the brain and the ventral nerve cord.",
+        "The data doesn't capture things like the living fly's electrophysiological state, so this is a virtual model with those gaps filled in through estimation and modeling."
+      ],
+      "media": "malecns"
+    },
+    {
+      "id": "consciousness",
+      "question": "Is this fruit fly conscious?",
+      "answer": [
+        "I think we'd first have to ask whether a living fruit fly is conscious, and if so, to what extent. In any case, there's no evidence that this network has the same experiences as a living fly. There isn't much evidence to the contrary, either."
+      ]
+    },
+    {
+      "id": "two-bodies",
+      "question": "Why use both a four-legged robot and a humanoid avatar?",
+      "answer": [
+        "The four-legged robot, SHOKI, was actually the original idea. YUMEKA, the anime girl avatar, came later.",
+        "The humanoid body has more joints and a more complex shape, which can make it hard to tell whether a learning problem comes from the body or the training method. A four-legged robot is relatively closer to a fruit fly's own body structure, so it's a useful point of comparison. SHOKI has also tended to perform better in training."
+      ]
+    },
+    {
+      "id": "avatar",
+      "question": "Did you make the avatar model yourself?",
+      "answer": [
+        "No. The humanoid avatar uses Yumeka, an original 3D model that [@Arka_X](https://x.com/Arka_X_) released for free. It's a beautiful model, and I've put it to a very strange use that unexpectedly became rather well known. I feel a little apologetic about that, and very grateful."
+      ],
+      "media": "yumeka-model"
+    },
+    {
+      "id": "machine-learning",
+      "question": "Isn't this just machine learning with a fruit fly label?",
+      "answer": [
+        "The training does use machine learning. But the model is built around, and constrained by, the actual neural connections of a fruit fly that was once alive. It learns by adjusting weights while keeping that connection structure in place."
+      ]
+    },
+    {
+      "id": "adaptation",
+      "question": "If training changes the weights, is it still a fruit fly brain?",
+      "answer": [
+        "That's one way to look at it. But when a person wakes up after a good night's sleep, their neural connections and weights are a little different from the night before, too. That's the kind of change I have in mind."
+      ]
+    },
+    {
+      "id": "pain",
+      "question": "It looks like it's suffering. Could it be in pain?",
+      "answer": [
+        "I think we'd first need to ask what sort of subjective experience a nervous system the size of a fruit fly's might have. Personally, I suspect its experience would be far more limited than even the knee-jerk reflex you get when someone taps your knee with a rubber hammer."
+      ]
+    },
+    {
+      "id": "wife",
+      "question": "Are you training her to be your wife?",
+      "answer": [
+        "She's a little short on intelligence for me to consider marriage. Being human isn't a requirement, though. I'd consider someone with at least 20 trillion parameters."
+      ]
+    },
+    {
+      "id": "goal",
+      "question": "What's the goal? Will she learn to walk upright?",
+      "answer": [
+        "It would be amazing to see the humanoid avatar move smoothly, but I expect walking upright to be difficult. Even humans take a long time to learn it. It needs a lot of muscles and joints working together, and the avatar's joints and actuation have their limits.",
+        "The 3D environment does have gravity and friction. Crawling, rolling, dragging herself along: any way of moving is fine. Once she can move consistently toward a goal, there are all sorts of tasks to try. I'm looking forward to seeing just how far a fruit fly's nervous system can get with a humanoid body."
+      ]
+    },
+    {
+      "id": "shoki",
+      "question": "Is SHOKI's design inspired by Ghost in the Shell?",
+      "answer": [
+        "Yes. I love four-legged mechs like the Tachikoma and Logikoma from Ghost in the Shell, so the design is a homage to them. The robot's four legs are connected to the parts of the fruit fly's nervous system associated with its middle and hind legs."
+      ],
+      "media": "shoki-training"
+    },
+    {
+      "id": "same-brain",
+      "question": "Do SHOKI and YUMEKA share one brain?",
+      "answer": [
+        "They start from the same place, but run as separate models. Think of the same nervous system accumulating its own memories and experiences in each body."
+      ]
+    },
+    {
+      "id": "third-body",
+      "question": "Any plans for a third body?",
+      "answer": [
+        "I have a few ideas. My local development setup isn't exactly luxurious, though, so for now I'm focusing on training SHOKI and YUMEKA."
+      ]
+    },
+    {
+      "id": "release",
+      "question": "Will you release the implementation?",
+      "answer": [
+        "This page shares the project's goals and basic principles. I'll decide what else to release as things develop, depending on how the experiment turns out."
+      ]
+    },
+    {
+      "id": "shoki-name",
+      "question": "Where does the name SHOKI come from?",
+      "answer": [
+        "The Japanese word for fruit fly is 猩猩蠅. I took 猩 from that word and added 機, meaning a machine. The result is read しょうき (shōki), which sounds exactly like 正気, meaning sanity. GPT 6 Astra came up with the pun. There's a decal on the side of the robot that reads 猩機零式 (Shōki Type Zero)."
+      ]
+    },
+    {
+      "id": "blank-lobe",
+      "question": "What's the Blank Lobe in the UI?",
+      "answer": [
+        "It's a small add-on neural network attached to the fruit fly's original nervous system. It's an artificial neural lobe with no predefined function, essentially some extra computing space. At 1,024 neurons, it's still tiny.",
+        "Personally, I often feel the limits of my own cognitive abilities, and I dream of expanding my neocortex someday. The Blank Lobe gives a fruit fly a very small-scale version of that dream. Later on, I'd like to see what happens to its behavior if I remove the lobe or give it more capacity."
+      ]
+    }
+  ]
+}

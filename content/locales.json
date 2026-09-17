@@ -1,7 +1,15 @@
 {
   "default": "ko",
   "languages": [
-    {"code": "ko", "label": "한국어", "enabled": true},
-    {"code": "en", "label": "English", "enabled": false}
+    {
+      "code": "ko",
+      "label": "한국어",
+      "enabled": true
+    },
+    {
+      "code": "en",
+      "label": "English",
+      "enabled": true
+    }
   ]
 }

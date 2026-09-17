@@ -127,7 +127,14 @@ def render(data, manifest):
         picture = media(question['media']) if question.get('media') else ''
         questions.append(f'<details class="faq-item" id="{question["id"]}"><summary><span class="question-number">{i+1:02d}</span>'
             +tag('span',f'faq.{i}.question')+'<span class="indicator" aria-hidden="true">+</span></summary><div class="answer">'+answers+picture+'</div></details>')
-    config = json.dumps({'locales':manifest, 'ui':data['ui']},ensure_ascii=False).replace('<',r'\u003c').replace('>',r'\u003e').replace('&',r'\u0026')
+    # Ship both translations with the page: initial selection and toggles need no
+    # extra request. Use the supplied default data so escaping tests remain valid.
+    translations = {
+        language['code']: data if language['code'] == data['meta']['lang'] else
+        json.loads((ROOT/f"content/{language['code']}.json").read_text('utf-8'))
+        for language in manifest['languages'] if language['enabled']
+    }
+    config = json.dumps({'locales':manifest, 'ui':data['ui'], 'translations':translations},ensure_ascii=False).replace('<',r'\u003c').replace('>',r'\u003e').replace('&',r'\u0026')
     blocks = {'_languages':languages, '_main_video':video('main',True), '_faqs':''.join(questions), '_config':config}
     result = (ROOT/'templates/page.html').read_text('utf-8')
     for key, value in blocks.items():

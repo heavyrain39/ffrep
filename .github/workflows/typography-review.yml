@@ -31,11 +31,12 @@ jobs:
         run: |
           python scripts/check_browser.py
           python scripts/check_typography.py
-      - name: Commit verified source changes on the staging branch
+      - name: Commit verified application source on the staging branch
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/typography.css assets/favicon.svg scripts/build.py templates/page.html tests/test_site.py scripts/check_browser.py scripts/check_typography.py tests/test_typography.py README.md AGENTS.md .github/workflows/pages.yml
+          # Workflow changes will be committed through the authorized connector.
+          git add assets/typography.css assets/favicon.svg scripts/build.py templates/page.html tests/test_site.py scripts/check_browser.py scripts/check_typography.py tests/test_typography.py README.md AGENTS.md
           git commit -m 'Apply and verify supplied MuseoModerno, SUIT and SVG favicon'
           git push origin HEAD:revision/supplied-typography
       - uses: actions/upload-artifact@v4

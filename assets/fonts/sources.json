@@ -1,0 +1,16 @@
+[
+  {
+    "file": "SUIT-Variable.woff2",
+    "sha256": "aa894a204d5a6fbae259dac6868d350cbd373a390caee0313f92946af741df23",
+    "bytes": 624536,
+    "source": "https://raw.githubusercontent.com/sun-typeface/SUIT/main/fonts/variable/woff2/SUIT-Variable.woff2",
+    "verification": "Exact SHA-256 match to the author-uploaded file; not a substitute."
+  },
+  {
+    "file": "MuseoModerno-Variable-latin.woff2",
+    "sha256": "8df17b9c94983ee6490a8004e422123c5503a40ad59cc32d39e02d202561382e",
+    "bytes": 30700,
+    "source": "https://cdn.jsdelivr.net/fontsource/fonts/museomoderno:vf@5.3.0/latin-wght-normal.woff2",
+    "verification": "Exact SHA-256 match to the author-uploaded file; not a substitute."
+  }
+]

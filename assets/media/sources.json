@@ -1,12 +1,25 @@
 [
   {
     "name": "yumeka-training",
+    "source": "https://x.com/yakshawan/status/2100860400514576785",
+    "published": "2026-09-18",
+    "description": "팔꿈치를 굽힐 수 있게 된 뒤, 팔을 앞다리처럼 사용하는 듯한 움직임이 나타난 최근 YUMEKA 훈련 영상.",
+    "kind": "video",
+    "file": "yumeka-training.mp4",
+    "poster": "yumeka-training.webp",
+    "duration": 21.6,
+    "edit": "X public video encode; audio removed; video stream remuxed without re-encoding.",
+    "sha256": "0764bc29ca200e337d1fe7ee8665bbbed606b37571d9698e36e095a3b12dec67",
+    "bytes": 1647845
+  },
+  {
+    "name": "yumeka-training-2026-09-15",
     "source": "https://x.com/yakshawan/status/2099806286468849665",
     "published": "Tue Sep 15 10:23:25 +0000 2026",
     "description": "탐색 노이즈 ON 상태로 훈련 중인 모습. 일부러 시행착오를 늘리는 일종의 연습 모드 같은 것임. 목표는 자극원에 도달하는 것이지만, 원래 내보내려고 했던 관절 명령에 약간의 무작위 변화를 섞어서 평소와 다른 움직임도 시험하고 잘된 것은 반영하게 돼 있음. 활기가 넘쳐서 좋군. 😊",
     "kind": "video",
-    "file": "yumeka-training.mp4",
-    "poster": "yumeka-training.webp",
+    "file": "yumeka-training-2026-09-15.mp4",
+    "poster": "yumeka-training-2026-09-15.webp",
     "duration": 24.9,
     "edit": "Web compression; audio removed; full frame and playback speed retained.",
     "sha256": "8ecd2da40b918fbf6a0bf6031668cd0251d38a9a61bf471932ad0ddcad77f073",

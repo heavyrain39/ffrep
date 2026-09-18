@@ -43,7 +43,7 @@ class SiteTests(unittest.TestCase):
                 if value.startswith('#'):self.assertIn(value[1:],self.dom.ids)
     def test_video_not_autoplayed_or_preloaded(self):
         videos=[attrs for tag,attrs in self.dom.nodes if tag=='video']
-        self.assertEqual(len(videos),2)
+        self.assertEqual(len(videos),3)
         for attrs in videos:
             self.assertIn('controls',attrs);self.assertIn('playsinline',attrs)
             self.assertNotIn('autoplay',attrs);self.assertEqual(attrs['preload'],'none')

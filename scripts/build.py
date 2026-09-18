@@ -11,11 +11,13 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 TOKEN = re.compile(r'\{\{([A-Za-z0-9_.]+)\}\}')
 LINK = re.compile(r'\[([^\]\n]+)\]\((https://[^\s)]+)\)')
-MEDIA = ('yumeka-training.mp4', 'yumeka-training.webp', 'shoki-training.mp4',
-         'shoki-training.webp', 'yumeka-model.webp', 'malecns-poster.webp')
+MEDIA = ('yumeka-training.mp4', 'yumeka-training.webp',
+         'yumeka-training-2026-09-15.mp4', 'yumeka-training-2026-09-15.webp',
+         'shoki-training.mp4', 'shoki-training.webp', 'yumeka-model.webp', 'malecns-poster.webp')
 FONTS = ('MuseoModerno-Variable-latin.woff2', 'SUIT-Variable.woff2',
          'MuseoModerno-OFL.txt', 'SUIT-OFL.txt')
-POSTS = {'main': 'https://x.com/yakshawan/status/2099806286468849665',
+POSTS = {'main': 'https://x.com/yakshawan/status/2100860400514576785',
+         'past': 'https://x.com/yakshawan/status/2099806286468849665',
          'shoki': 'https://x.com/yakshawan/status/2099813850426245440'}
 
 
@@ -87,10 +89,13 @@ def tag(name, key, attrs=''):
 
 
 def video(which, main=False):
-    basename = 'yumeka-training' if main else 'shoki-training'
-    prefix = 'main' if main else 'shoki'
-    cls = 'main-film' if main else 'training-film'
-    return (f'<figure class="{cls}"><video controls playsinline preload="none" width="1280" height="670" '
+    if main:
+        basename, prefix, cls, height = 'yumeka-training', 'main', 'main-film', 720
+    elif which == 'past':
+        basename, prefix, cls, height = 'yumeka-training-2026-09-15', 'past', 'training-film', 670
+    else:
+        basename, prefix, cls, height = 'shoki-training', 'shoki', 'training-film', 670
+    return (f'<figure class="{cls}"><video controls playsinline preload="none" width="1280" height="{height}" '
             f'poster="./assets/media/{basename}.webp" aria-describedby="{prefix}-description">'
             f'<source src="./assets/media/{basename}.mp4" type="video/mp4">'
             +tag('span','ui.videoUnsupported')+'</video>'
@@ -103,6 +108,8 @@ def video(which, main=False):
 def media(name):
     if name == 'shoki-training':
         return video('shoki')
+    if name == 'yumeka-training-archive':
+        return video('past')
     if name == 'yumeka-model':
         return ('<figure class="model-figure"><a href="https://booth.pm/en/items/8672657" target="_blank" rel="noopener noreferrer">'
                 '<img src="./assets/media/yumeka-model.webp" width="800" height="800" loading="lazy" decoding="async" alt="{{ui.modelAlt}}" data-i18n-attr="alt:ui.modelAlt"></a>'

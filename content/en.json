@@ -3,7 +3,7 @@
     "lang": "en",
     "title": "Fruit Fly Re-Embodiment Project",
     "description": "A fruit fly neural network in two unfamiliar bodies: SHOKI, a four-legged robot, and YUMEKA, an anime girl avatar. A project about the movements they develop.",
-    "updated": "2026-09-17"
+    "updated": "2026-09-18"
   },
   "ui": {
     "skip": "Skip to content",
@@ -16,15 +16,17 @@
     "referenceCaption": "MaleCNS connectome · HHMI Janelia / Philip Hubbard",
     "referenceSource": "Data and video source",
     "portfolio": "Portfolio",
-    "mainCaption": "YUMEKA · Training with exploration ON · Sep 15, 2026",
-    "mainDescription": "A publicly shared training video of YUMEKA moving her limbs while her body rests on the floor. Neural activity appears on the left, with an overhead view of her movement on the right.",
+    "mainCaption": "YUMEKA · Training after emerging elbow control · Sep 18, 2026",
+    "mainDescription": "A recent YUMEKA training clip after elbow flexion became available, showing arm movements that resemble the use of a fruit fly's forelegs. Neural activity appears on the left, with an overhead view on the right.",
     "shokiCaption": "SHOKI · Training with exploration ON · Sep 15, 2026",
     "shokiDescription": "A publicly shared training video of SHOKI using its four legs to move toward a stimulus source. Neural activity and an overhead view of its movement are shown alongside it.",
     "modelCaption": "Original Yumeka model promotional image · Arka_X",
     "modelAlt": "Official promotional image for Arka_X's original 3D model, Yumeka",
     "originalPost": "Original post",
     "modelPage": "Model download page",
-    "loadError": "The video couldn't be loaded. You can watch it in the original post."
+    "loadError": "The video couldn't be loaded. You can watch it in the original post.",
+    "pastCaption": "YUMEKA · Training with exploration ON · Sep 15, 2026",
+    "pastDescription": "A publicly shared training video of YUMEKA moving her limbs while her body rests on the floor. Neural activity appears on the left, with an overhead view of her movement on the right."
   },
   "intro": {
     "title": "FRUIT FLY\nRE-EMBODIMENT\nPROJECT",
@@ -98,7 +100,8 @@
       "answer": [
         "It would be amazing to see the humanoid avatar move smoothly, but I expect walking upright to be difficult. Even humans take a long time to learn it. It needs a lot of muscles and joints working together, and the avatar's joints and actuation have their limits.",
         "The 3D environment does have gravity and friction. Crawling, rolling, dragging herself along: any way of moving is fine. Once she can move consistently toward a goal, there are all sorts of tasks to try. I'm looking forward to seeing just how far a fruit fly's nervous system can get with a humanoid body."
-      ]
+      ],
+      "media": "yumeka-training-archive"
     },
     {
       "id": "shoki",

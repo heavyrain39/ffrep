@@ -3,7 +3,7 @@
     "lang": "ko",
     "title": "Fruit Fly Re-Embodiment Project",
     "description": "4족 로봇 쇼키와 미소녀 아바타 유메카에 초파리의 신경망을 연결하고, 각자의 움직임이 생겨나는 과정을 지켜봅니다.",
-    "updated": "2026-09-17"
+    "updated": "2026-09-18"
   },
   "ui": {
     "skip": "본문으로",
@@ -16,15 +16,17 @@
     "referenceCaption": "MaleCNS 연결망 · HHMI Janelia / Philip Hubbard",
     "referenceSource": "데이터와 영상 출처",
     "portfolio": "포트폴리오",
-    "mainCaption": "YUMEKA · 탐색 ON 훈련 장면 · 2026.09.15",
-    "mainDescription": "유메카가 바닥에 몸을 댄 채 팔다리를 움직이는 공개 훈련 영상입니다. 왼쪽에는 신경 활동, 오른쪽에는 위에서 본 이동 장면이 함께 표시됩니다.",
+    "mainCaption": "YUMEKA · 팔꿈치 제어가 나타난 훈련 장면 · 2026.09.18",
+    "mainDescription": "팔꿈치를 굽힐 수 있게 된 뒤, 팔을 초파리의 앞다리와 비슷한 방식으로 사용하는 듯한 움직임이 나타난 최근 훈련 장면입니다. 왼쪽에는 신경 활동, 오른쪽에는 위에서 본 이동 장면이 함께 표시됩니다.",
     "shokiCaption": "SHOKI · 탐색 ON 훈련 장면 · 2026.09.15",
     "shokiDescription": "쇼키가 네 다리로 몸을 움직이며 자극원에 접근하는 공개 훈련 영상입니다. 신경 활동과 위에서 본 이동 장면이 함께 표시됩니다.",
     "modelCaption": "Yumeka 원본 모델 소개 이미지 · Arka_X",
     "modelAlt": "Arka_X의 오리지널 3D 모델 Yumeka 공식 소개 이미지",
     "originalPost": "원본 게시물",
     "modelPage": "모델 배포 페이지",
-    "loadError": "영상을 불러오지 못했습니다. 원본 게시물에서 확인해 주세요."
+    "loadError": "영상을 불러오지 못했습니다. 원본 게시물에서 확인해 주세요.",
+    "pastCaption": "YUMEKA · 탐색 ON 훈련 장면 · 2026.09.15",
+    "pastDescription": "유메카가 바닥에 몸을 댄 채 팔다리를 움직이는 공개 훈련 영상입니다. 왼쪽에는 신경 활동, 오른쪽에는 위에서 본 이동 장면이 함께 표시됩니다."
   },
   "intro": {
     "title": "FRUIT FLY\nRE-EMBODIMENT\nPROJECT",
@@ -98,7 +100,8 @@
       "answer": [
         "인간형 아바타를 매끄럽게 움직일 수 있다면 정말 멋지겠지만, 아마 직립보행은 어려울 거라고 예상하고 있습니다. 인간도 배우는 데 오래 걸리는 고급 동작인 데다가, 다양한 근육과 관절이 협응해야 하는데 현재 아바타의 관절과 구동 방식에 제약이 있기 때문입니다.",
         "3D 실험 환경 내에 중력과 마찰은 구현되어 있긴 합니다. 기어가기, 뒹굴기, 질질 끌기 등 어떤 이동법이든 목표를 향해 일관되게 움직일 수 있다면 그때부터는 다양한 과제를 시켜볼 수 있습니다. 초파리의 신경계가 과연 어디까지 인간형 아바타를 다룰 수 있게 될지 저도 기대하는 마음으로 지켜보려 합니다."
-      ]
+      ],
+      "media": "yumeka-training-archive"
     },
     {
       "id": "shoki",

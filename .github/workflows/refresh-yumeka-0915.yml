@@ -1,0 +1,78 @@
+name: Refresh FFREP Sep 15 YUMEKA media
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refresh-yumeka-0915.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch highest public Sep 15 YUMEKA encode
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install --quiet --upgrade yt-dlp
+
+          URL='https://x.com/yakshawan/status/2099806286468849665'
+          if ! python -m yt_dlp --no-playlist -f 'bestvideo[ext=mp4]/best[ext=mp4]/best' -o '/tmp/yumeka-0915.%(ext)s' "$URL"; then
+            curl -fsSL 'https://api.fxtwitter.com/status/2099806286468849665' -o /tmp/fxtwitter.json
+            VIDEO_URL=$(python - <<'PY'
+          import json
+          data=json.load(open('/tmp/fxtwitter.json',encoding='utf-8'))
+          videos=data.get('tweet',{}).get('media',{}).get('videos',[])
+          if not videos:
+              raise SystemExit('No video URL in public tweet metadata')
+          videos=sorted(videos,key=lambda v:(v.get('width',0)*v.get('height',0),v.get('bitrate',0)),reverse=True)
+          print(videos[0]['url'])
+          PY
+            )
+            curl -fL "$VIDEO_URL" -o /tmp/yumeka-0915.mp4
+          fi
+
+          NEW=$(find /tmp -maxdepth 1 -type f -name 'yumeka-0915.*' | head -n1)
+          test -n "$NEW"
+          ffmpeg -y -i "$NEW" -map 0:v:0 -an -c:v copy -movflags +faststart assets/media/yumeka-training-2026-09-15.mp4
+          ffmpeg -y -ss 12.0 -i assets/media/yumeka-training-2026-09-15.mp4 -frames:v 1 -vf 'scale=1280:-2:flags=lanczos' -c:v libwebp -quality 84 assets/media/yumeka-training-2026-09-15.webp
+
+          ffprobe -v error -show_entries stream=width,height,r_frame_rate -show_entries format=duration,size,bit_rate -of json assets/media/yumeka-training-2026-09-15.mp4
+
+      - name: Refresh media checksum metadata
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          path=Path('assets/media/yumeka-training-2026-09-15.mp4')
+          manifest=Path('assets/media/sources.json')
+          data=json.loads(manifest.read_text('utf-8'))
+          item=next(x for x in data if x['name']=='yumeka-training-2026-09-15')
+          item['sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
+          item['bytes']=path.stat().st_size
+          item['edit']='Highest-quality public X video encode; audio removed; video stream remuxed without re-encoding.'
+          manifest.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n','utf-8')
+          PY
+
+      - name: Build and test
+        run: |
+          python scripts/build.py
+          python -m unittest discover -s tests -v
+
+      - name: Commit upgraded Sep 15 media
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/media/yumeka-training-2026-09-15.mp4 assets/media/yumeka-training-2026-09-15.webp assets/media/sources.json
+          git commit -m 'Upgrade Sep 15 YUMEKA training media'
+          git push

@@ -21,9 +21,9 @@
     "file": "yumeka-training-2026-09-15.mp4",
     "poster": "yumeka-training-2026-09-15.webp",
     "duration": 24.9,
-    "edit": "Web compression; audio removed; full frame and playback speed retained.",
-    "sha256": "8ecd2da40b918fbf6a0bf6031668cd0251d38a9a61bf471932ad0ddcad77f073",
-    "bytes": 1120824
+    "edit": "Highest-quality public X video encode; audio removed; video stream remuxed without re-encoding.",
+    "sha256": "2458d760d4be427469784ecff779a8465065591338988c3c7e77ea994479dc7e",
+    "bytes": 1729061
   },
   {
     "name": "shoki-training",

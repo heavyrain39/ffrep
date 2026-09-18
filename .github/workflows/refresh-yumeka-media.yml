@@ -152,6 +152,12 @@ jobs:
           s=s.replace('.main-film video{aspect-ratio:1720/900}', '.main-film video{aspect-ratio:16/9}')
           css.write_text(s,'utf-8')
 
+          tests=root/'tests/test_site.py'
+          s=tests.read_text('utf-8')
+          assert 'self.assertEqual(len(videos),2)' in s
+          s=s.replace('self.assertEqual(len(videos),2)', 'self.assertEqual(len(videos),3)')
+          tests.write_text(s,'utf-8')
+
           sources_path=root/'assets/media/sources.json'
           sources=json.loads(sources_path.read_text('utf-8'))
           old_entry=sources[0]
@@ -194,6 +200,6 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/media content scripts/build.py assets/site.css
+          git add assets/media content scripts/build.py assets/site.css tests/test_site.py
           git commit -m 'Feature Sep 18 YUMEKA elbow-control clip'
           git push

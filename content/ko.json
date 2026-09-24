@@ -3,7 +3,7 @@
     "lang": "ko",
     "title": "Fruit Fly Re-Embodiment Project",
     "description": "4족 로봇 쇼키와 미소녀 아바타 유메카에 초파리의 신경망을 연결하고, 각자의 움직임이 생겨나는 과정을 지켜봅니다.",
-    "updated": "2026-09-18"
+    "updated": "2026-09-24"
   },
   "ui": {
     "skip": "본문으로",
@@ -16,8 +16,8 @@
     "referenceCaption": "MaleCNS 연결망 · HHMI Janelia / Philip Hubbard",
     "referenceSource": "데이터와 영상 출처",
     "portfolio": "포트폴리오",
-    "mainCaption": "YUMEKA · 팔꿈치 제어가 나타난 훈련 장면 · 2026.09.18",
-    "mainDescription": "팔꿈치를 굽힐 수 있게 된 뒤, 팔을 초파리의 앞다리와 비슷한 방식으로 사용하는 듯한 움직임이 나타난 최근 훈련 장면입니다. 왼쪽에는 신경 활동, 오른쪽에는 위에서 본 이동 장면이 함께 표시됩니다.",
+    "mainCaption": "YUMEKA · 자극원(먹이) 접촉 · 2026.09.23",
+    "mainDescription": "유메카 소체의 입이 자극원(먹이)에 닿는 장면을 처음 공개한 훈련 영상입니다.",
     "shokiCaption": "SHOKI · 탐색 ON 훈련 장면 · 2026.09.15",
     "shokiDescription": "쇼키가 네 다리로 몸을 움직이며 자극원에 접근하는 공개 훈련 영상입니다. 신경 활동과 위에서 본 이동 장면이 함께 표시됩니다.",
     "modelCaption": "Yumeka 원본 모델 소개 이미지 · Arka_X",
@@ -25,8 +25,8 @@
     "originalPost": "원본 게시물",
     "modelPage": "모델 배포 페이지",
     "loadError": "영상을 불러오지 못했습니다. 원본 게시물에서 확인해 주세요.",
-    "pastCaption": "YUMEKA · 탐색 ON 훈련 장면 · 2026.09.15",
-    "pastDescription": "유메카가 바닥에 몸을 댄 채 팔다리를 움직이는 공개 훈련 영상입니다. 왼쪽에는 신경 활동, 오른쪽에는 위에서 본 이동 장면이 함께 표시됩니다."
+    "pastCaption": "YUMEKA · 팔꿈치 제어가 나타난 훈련 장면 · 2026.09.18",
+    "pastDescription": "팔꿈치를 굽힐 수 있게 된 뒤, 팔을 초파리의 앞다리와 비슷한 방식으로 사용하는 듯한 움직임이 나타난 훈련 장면입니다. 왼쪽에는 신경 활동, 오른쪽에는 위에서 본 이동 장면이 함께 표시됩니다."
   },
   "intro": {
     "title": "FRUIT FLY\nRE-EMBODIMENT\nPROJECT",

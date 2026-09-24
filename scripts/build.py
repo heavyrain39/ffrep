@@ -12,12 +12,13 @@ ROOT = Path(__file__).resolve().parents[1]
 TOKEN = re.compile(r'\{\{([A-Za-z0-9_.]+)\}\}')
 LINK = re.compile(r'\[([^\]\n]+)\]\((https://[^\s)]+)\)')
 MEDIA = ('yumeka-training.mp4', 'yumeka-training.webp',
+         'yumeka-training-2026-09-18.mp4', 'yumeka-training-2026-09-18.webp',
          'yumeka-training-2026-09-15.mp4', 'yumeka-training-2026-09-15.webp',
          'shoki-training.mp4', 'shoki-training.webp', 'yumeka-model.webp', 'malecns-poster.webp')
 FONTS = ('MuseoModerno-Variable-latin.woff2', 'SUIT-Variable.woff2',
          'MuseoModerno-OFL.txt', 'SUIT-OFL.txt')
-POSTS = {'main': 'https://x.com/yakshawan/status/2100860400514576785',
-         'past': 'https://x.com/yakshawan/status/2099806286468849665',
+POSTS = {'main': 'https://x.com/yakshawan/status/2102741314857267542',
+         'past': 'https://x.com/yakshawan/status/2100860400514576785',
          'shoki': 'https://x.com/yakshawan/status/2099813850426245440'}
 
 
@@ -92,7 +93,7 @@ def video(which, main=False):
     if main:
         basename, prefix, cls, height = 'yumeka-training', 'main', 'main-film', 720
     elif which == 'past':
-        basename, prefix, cls, height = 'yumeka-training-2026-09-15', 'past', 'training-film', 670
+        basename, prefix, cls, height = 'yumeka-training-2026-09-18', 'past', 'training-film', 670
     else:
         basename, prefix, cls, height = 'shoki-training', 'shoki', 'training-film', 670
     return (f'<figure class="{cls}"><video controls playsinline preload="none" width="1280" height="{height}" '

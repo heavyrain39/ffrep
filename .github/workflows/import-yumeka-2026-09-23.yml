@@ -1,0 +1,57 @@
+name: Import Sep 23 YUMEKA media
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-yumeka-2026-09-23.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import-media:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download public X video
+        run: |
+          python -m pip install --disable-pip-version-check yt-dlp
+          mkdir -p /tmp/yumeka-import
+          python -m yt_dlp \
+            --no-playlist \
+            --no-progress \
+            --merge-output-format mp4 \
+            -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' \
+            -o '/tmp/yumeka-import/source.%(ext)s' \
+            'https://x.com/yakshawan/status/2102741314857267542'
+          src="$(find /tmp/yumeka-import -maxdepth 1 -type f -name 'source.*' | head -n 1)"
+          test -n "$src"
+          ffmpeg -y -i "$src" -map 0:v:0 -an \
+            -c:v libx264 -preset medium -crf 23 -pix_fmt yuv420p -movflags +faststart \
+            assets/media/yumeka-training.mp4
+          ffmpeg -y -ss 0.5 -i assets/media/yumeka-training.mp4 -frames:v 1 \
+            -vf 'scale=1280:-2:force_original_aspect_ratio=decrease' \
+            -c:v libwebp -quality 82 assets/media/yumeka-training.webp
+      - name: Record import metadata
+        run: |
+          duration="$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 assets/media/yumeka-training.mp4)"
+          sha256="$(sha256sum assets/media/yumeka-training.mp4 | awk '{print $1}')"
+          bytes="$(stat -c%s assets/media/yumeka-training.mp4)"
+          cat > assets/media/yumeka-training-2026-09-23.import.json <<EOF
+          {
+            "source": "https://x.com/yakshawan/status/2102741314857267542",
+            "published": "2026-09-23",
+            "duration": $duration,
+            "sha256": "$sha256",
+            "bytes": $bytes
+          }
+          EOF
+      - name: Commit imported media
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/media/yumeka-training.mp4 assets/media/yumeka-training.webp assets/media/yumeka-training-2026-09-23.import.json
+          git commit -m 'Import Sep 23 YUMEKA stimulus-contact video'
+          git push

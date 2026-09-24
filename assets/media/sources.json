@@ -7,10 +7,10 @@
     "kind": "video",
     "file": "yumeka-training.mp4",
     "poster": "yumeka-training.webp",
-    "duration": 13.333333,
-    "edit": "Highest-quality public X video encode; audio removed; transcoded to H.264 for web playback.",
-    "sha256": "fee3400617b32d7ff8c41d65629489a43a608e5808b360a7d16e0d2f2f80fe83",
-    "bytes": 1282044
+    "duration": 13.366667,
+    "edit": "Encoded directly from the original uploaded 1920×1080 OBS recording; audio removed; H.264 CRF 23 for web playback.",
+    "sha256": "14a777d45e29d2eb90a2fe1f168fea9fb32793a869c92d70008bce185a3ad9fc",
+    "bytes": 2896731
   },
   {
     "name": "yumeka-training-2026-09-18",

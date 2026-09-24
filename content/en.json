@@ -3,7 +3,7 @@
     "lang": "en",
     "title": "Fruit Fly Re-Embodiment Project",
     "description": "A fruit fly neural network in two unfamiliar bodies: SHOKI, a four-legged robot, and YUMEKA, an anime girl avatar. A project about the movements they develop.",
-    "updated": "2026-09-18"
+    "updated": "2026-09-24"
   },
   "ui": {
     "skip": "Skip to content",
@@ -16,8 +16,8 @@
     "referenceCaption": "MaleCNS connectome · HHMI Janelia / Philip Hubbard",
     "referenceSource": "Data and video source",
     "portfolio": "Portfolio",
-    "mainCaption": "YUMEKA · Training after emerging elbow control · Sep 18, 2026",
-    "mainDescription": "A recent YUMEKA training clip after elbow flexion became available, showing arm movements that resemble the use of a fruit fly's forelegs. Neural activity appears on the left, with an overhead view on the right.",
+    "mainCaption": "YUMEKA · First mouth contact with the stimulus (food) · Sep 23, 2026",
+    "mainDescription": "The first public training video showing YUMEKA's mouth reaching the stimulus (food).",
     "shokiCaption": "SHOKI · Training with exploration ON · Sep 15, 2026",
     "shokiDescription": "A publicly shared training video of SHOKI using its four legs to move toward a stimulus source. Neural activity and an overhead view of its movement are shown alongside it.",
     "modelCaption": "Original Yumeka model promotional image · Arka_X",
@@ -25,8 +25,8 @@
     "originalPost": "Original post",
     "modelPage": "Model download page",
     "loadError": "The video couldn't be loaded. You can watch it in the original post.",
-    "pastCaption": "YUMEKA · Training with exploration ON · Sep 15, 2026",
-    "pastDescription": "A publicly shared training video of YUMEKA moving her limbs while her body rests on the floor. Neural activity appears on the left, with an overhead view of her movement on the right."
+    "pastCaption": "YUMEKA · Training after emerging elbow control · Sep 18, 2026",
+    "pastDescription": "A YUMEKA training clip after elbow flexion became available, showing arm movements that resemble the use of a fruit fly's forelegs. Neural activity appears on the left, with an overhead view on the right."
   },
   "intro": {
     "title": "FRUIT FLY\nRE-EMBODIMENT\nPROJECT",

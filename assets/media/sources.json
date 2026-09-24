@@ -1,12 +1,25 @@
 [
   {
     "name": "yumeka-training",
+    "source": "https://x.com/yakshawan/status/2102741314857267542",
+    "published": "2026-09-23",
+    "description": "유메카 소체의 입이 자극원(먹이)에 닿는 장면을 처음 공개한 YUMEKA 훈련 영상.",
+    "kind": "video",
+    "file": "yumeka-training.mp4",
+    "poster": "yumeka-training.webp",
+    "duration": 13.333333,
+    "edit": "Highest-quality public X video encode; audio removed; transcoded to H.264 for web playback.",
+    "sha256": "fee3400617b32d7ff8c41d65629489a43a608e5808b360a7d16e0d2f2f80fe83",
+    "bytes": 1282044
+  },
+  {
+    "name": "yumeka-training-2026-09-18",
     "source": "https://x.com/yakshawan/status/2100860400514576785",
     "published": "2026-09-18",
     "description": "팔꿈치를 굽힐 수 있게 된 뒤, 팔을 앞다리처럼 사용하는 듯한 움직임이 나타난 최근 YUMEKA 훈련 영상.",
     "kind": "video",
-    "file": "yumeka-training.mp4",
-    "poster": "yumeka-training.webp",
+    "file": "yumeka-training-2026-09-18.mp4",
+    "poster": "yumeka-training-2026-09-18.webp",
     "duration": 21.6,
     "edit": "X public video encode; audio removed; video stream remuxed without re-encoding.",
     "sha256": "0764bc29ca200e337d1fe7ee8665bbbed606b37571d9698e36e095a3b12dec67",
